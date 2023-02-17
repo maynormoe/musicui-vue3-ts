@@ -1,9 +1,7 @@
 <template>
-  <div class="moduleLeft">
-    <div class="navList">
+<div class="recommend">
 
-    </div>
-  </div>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -11,9 +9,9 @@
 </script>
 
 <style lang="less" scoped>
-.moduleLeft {
-  width: 20vmin;
+.recommend {
+  width: 100%;
+  height: 100%;
   background: white;
 }
-
 </style>

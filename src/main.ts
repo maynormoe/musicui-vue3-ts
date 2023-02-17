@@ -5,6 +5,8 @@ import App from './App.vue'
 import router from "@/router/router";
 import SvgIcon from "@/components/SvgIcon/SvgIcon.vue";
 
+import '@icon-park/vue-next/styles/index.less'
+
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const app = createApp(App)
