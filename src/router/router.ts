@@ -5,11 +5,31 @@ const router = createRouter({
     routes: [
         {
             path: '/',
+            redirect: 'discover',
             component: () => import('@/views/index.vue'),
             children: [
                 {
                     path: 'discover',
-                    component: () => import('@/views/Discover/Discover.vue')
+                    // redirect: 'personrecommend',
+                    component: () => import('@/views/Discover/Discover.vue'),
+                    children: [
+                        {
+                            path: 'personrecommend',
+                            component: () => import('@/views/Discover/DiscoverChild/Precommend.vue')
+                        },
+                        {
+                            path: 'songlist',
+                            component: () => import('@/views/Discover/DiscoverChild/SongList.vue')
+                        },
+                        {
+                            path: 'ranking',
+                            component: () => import('@/views/Discover/DiscoverChild/Ranking.vue')
+                        },
+                        {
+                            path: 'songer',
+                            component: () => import('@/views/Discover/DiscoverChild/Songer.vue')
+                        },
+                    ]
                 },
                 {
                     path: 'dj',

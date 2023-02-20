@@ -3,7 +3,7 @@
     <el-menu
         active-text-color="#ec4141"
         class="el-menu-vertical-demo"
-        route
+        router
     >
         <el-menu-item index="/discover">
           <music theme="outline" size="25" fill="#ec4141" class="Icon"/>
@@ -51,6 +51,7 @@
       span {
         font-family: sans-serif;
         font-size: 2.35vmin;
+        font-weight: bold;
       }
     }
   }

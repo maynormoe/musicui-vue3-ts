@@ -12,5 +12,6 @@ body {
   margin: 0;
   background: #EAECEF;
   box-sizing: border-box;
+  font-family: sans-serif;
 }
 </style>

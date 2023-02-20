@@ -12,7 +12,7 @@
             <Menu></Menu>
           </el-aside>
           <el-main>
-            <Recommend></Recommend>
+            <RouterView class="routerView" :key="$route.fullPath"></RouterView>
           </el-main>
         </el-container>
       </el-container>
@@ -27,7 +27,6 @@
 
 import HeaderBar from "@/components/HeaderBar/HeaderBar.vue";
 import Menu from "@/components/Menu/Menu.vue";
-import Recommend from "@/components/Recommend/Precommend.vue";
 import MusicController from "@/components/MusicController/MusicController.vue";
 
 </script>
