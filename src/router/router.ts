@@ -10,7 +10,7 @@ const router = createRouter({
             children: [
                 {
                     path: 'discover',
-                    // redirect: 'personrecommend',
+                    redirect: '/discover/personrecommend',
                     component: () => import('@/views/Discover/Discover.vue'),
                     children: [
                         {

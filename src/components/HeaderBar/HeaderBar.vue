@@ -1,7 +1,7 @@
 <template>
   <div class="headBar">
     <div class="leftLogo">
-      <img src="src/assets/logo/logo.png">
+      <img src="/src/assets/logo/logo.png">
     </div>
     <div class="center">
       <div class="buttons">
@@ -33,7 +33,7 @@
     <div class="right">
       <div class="user" @click="showLoginCard">
         <div class="avatar">
-          <img src="src/assets/img/avatar.png" class="avatarImg">
+          <img src="/src/assets/img/avatar.png" class="avatarImg">
         </div>
         <div class="unlogin">
           <span>点击登录</span>
@@ -46,7 +46,6 @@
       <Login></Login>
     </div>
   </transition>
-
 </template>
 
 <script setup lang="ts">

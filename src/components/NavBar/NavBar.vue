@@ -6,7 +6,7 @@
           :class="{ active: index === indexData.activeIndex }"
           @click="clickBarItem(item.path, index)"
       >
-        <span :style="{ fontSize: index === indexData.activeIndex ? '2.7655vmin' : '2.5vmin' }">{{ item.name }}</span>
+        <span>{{ item.name }}</span>
       </div>
     </div>
   </div>
@@ -23,8 +23,9 @@ defineProps({
 });
 
 const indexData = reactive({
-  activeIndex: 0
+  activeIndex: -1
 });
+
 const emit = defineEmits(["clickBarItem"]);
 
 const clickBarItem = (path: string, index: number) => {

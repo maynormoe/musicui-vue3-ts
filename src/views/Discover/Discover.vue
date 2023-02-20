@@ -23,6 +23,9 @@ const navBarData = ref([{
   {
     name: "歌手",path: '/discover/songer'
   }])
+onMounted(() => {
+  console.log("Mounted")
+})
 const clickBarItem = (path: any) => {
   router.push(path)
 }
