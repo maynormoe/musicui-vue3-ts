@@ -21,12 +21,10 @@ api.getCarousel().then((res) => {
 
 <style lang="less" scoped>
 .el-carousel {
-  padding: 2.855vmin;
+  padding: 2.745vmin;
 
-  .el-carousel-item {
-    .carouselImg {
-      border-radius: 10vmin;
-    }
+  .el-carousel__item {
+    border-radius: 4.445vmin;
   }
 }
 </style>
