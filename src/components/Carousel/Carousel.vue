@@ -26,7 +26,7 @@ api.getCarousel().then((res) => {
 
   .el-carousel__item {
     width: 71.655vmin;
-    border-radius: 3.595vmin;
+    border-radius: 3.495vmin;
 
     img {
       width: 100%;
