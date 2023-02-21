@@ -1,5 +1,6 @@
 <template>
-  <el-carousel :interval="4000" height="35.9555vmin" type="card">
+  <div class="precomcommend"></div>
+  <el-carousel :interval="4000" height="32.755vmin" type="card">
     <el-carousel-item v-for="(item, index) in carouselList" :key="index">
       <img :src="item.imageUrl" class="carouselImg">
     </el-carousel-item>
@@ -21,11 +22,15 @@ api.getCarousel().then((res) => {
 
 <style lang="less" scoped>
 .el-carousel {
-  padding: 2.855vmin;
+  padding: 2.755vmin;
 
-  .el-carousel-item {
-    .carouselImg {
-      border-radius: 10vmin;
+  .el-carousel__item {
+    width: 71.655vmin;
+    border-radius: 4.045vmin;
+
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }
