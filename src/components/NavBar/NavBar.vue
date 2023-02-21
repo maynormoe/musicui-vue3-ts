@@ -13,10 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import type { PropType } from "vue";
-import { reactive } from "vue";
+import type {PropType} from "vue";
+import {onMounted, reactive} from "vue";
 
-defineProps({
+const props = defineProps({
   navBarData: {
     type: Object as PropType<any>
   }
@@ -28,8 +28,11 @@ const indexData = reactive({
 
 const emit = defineEmits(["clickBarItem"]);
 
+onMounted(() => {
+  indexData.activeIndex = props.navBarData.findIndex((item: { path: string; }) => item.path === window.location.pathname);
+});
+
 const clickBarItem = (path: string, index: number) => {
-  indexData.activeIndex = index;
   emit("clickBarItem", path, index)
 };
 

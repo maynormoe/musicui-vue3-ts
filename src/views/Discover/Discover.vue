@@ -11,6 +11,7 @@
 import NavBar from "@/components/NavBar/NavBar.vue";
 import {onMounted, ref} from "vue";
 import router from "@/router/router";
+
 const navBarData = ref([{
   name: '个性推荐',path: '/discover/personrecommend'
 },
@@ -26,8 +27,9 @@ const navBarData = ref([{
 onMounted(() => {
   console.log("Mounted")
 })
-const clickBarItem = (path: any) => {
+const clickBarItem = (path: any, index: any, indexData: any) => {
   router.push(path)
+  indexData.activeIndex = index;
 }
 </script>
 
