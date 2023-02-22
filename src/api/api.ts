@@ -8,8 +8,11 @@ export const getCarousel = async () => {
     return await instance.get('/banner?type=0')
 }
 
-
+export const getPrecommend = async () => {
+    return await instance.get('/personalized?limit=10')
+}
 export default {
     getHotSearch,
-    getCarousel
+    getCarousel,
+    getPrecommend
 }

@@ -27,27 +27,28 @@
 
 <script setup lang="ts">
 
- import { Music } from '@icon-park/vue-next'
- import { Fm } from '@icon-park/vue-next'
- import { CarouselVideo } from '@icon-park/vue-next'
- import { ThumbsUp } from "@icon-park/vue-next";
-
-</script>
+import {CarouselVideo, Fm, Music, ThumbsUp} from '@icon-park/vue-next'</script>
 
 <style lang="less" scoped>
 .menuLeft {
-  width: 100%;
+  width: 39.855vmin;
   height: 100%;
+  border-bottom: 1px solid #cccccc;
   background: white;
+  position: fixed;
+  z-index: 200;
+
   .el-menu-vertical-demo {
     .el-menu-item {
       &:hover {
         background: #ec4141;
         opacity: 0.1;
       }
+
       .Icon {
         padding-right: 1vmin;
       }
+
       span {
         font-family: sans-serif;
         font-size: 2.35vmin;

@@ -52,10 +52,10 @@
 
 import router from "@/router/router";
 
-import { ref } from 'vue'
+import {ref} from 'vue'
 import SearchPop from "@/components/SearchPop/SearchPop.vue";
 import Login from "@/components/Login/Login.vue";
-import { Search } from "@element-plus/icons-vue";
+import {Search} from "@element-plus/icons-vue";
 
 
 const input = ref('')
@@ -91,13 +91,18 @@ const showLoginCard = () => {
   background: #ec4141;
   display: flex;
   align-items: center;
+  position: fixed;
+  z-index: 200;
+
   .leftLogo {
     margin-left: 2.55vmin;
     margin-right: 2.25vmin;
+
     img {
       height: 5vmin;
     }
   }
+
   .center {
     flex: 1;
     display: flex;

@@ -1,10 +1,9 @@
 <template>
-  <div class="discover">
-    <div class="navBar">
-      <NavBar :navBarData="navBarData" @clickBarItem="clickBarItem"></NavBar>
-    </div>
+  <div class="discoverContainer">
+    <NavBar :navBarData="navBarData" @clickBarItem="clickBarItem"></NavBar>
+    <RouterView class="discover"></RouterView>
   </div>
-  <RouterView></RouterView>
+
 </template>
 
 <script setup lang="ts">
@@ -34,5 +33,13 @@ const clickBarItem = (path: any, index: any, indexData: any) => {
 </script>
 
 <style lang="less" scoped>
+.discoverContainer {
+  padding: 0 !important;
+  overflow: hidden;
 
+  .discover {
+    overflow: scroll;
+    height: calc(100vh - 248px);
+  }
+}
 </style>

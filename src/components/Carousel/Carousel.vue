@@ -1,10 +1,10 @@
 <template>
-  <div class="precomcommend"></div>
   <el-carousel :interval="4000" height="32.755vmin" type="card">
     <el-carousel-item v-for="(item, index) in carouselList" :key="index">
       <img :src="item.imageUrl" class="carouselImg">
     </el-carousel-item>
   </el-carousel>
+
 </template>
 
 <script lang="ts" setup>

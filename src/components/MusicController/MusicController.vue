@@ -13,7 +13,7 @@
   background: white;
   z-index: 200;
   width: 100%;
-  height: 14.5vmin;
+  height: 12.85vmin;
   border-top: 1px solid #ccc;
 }
 </style>
