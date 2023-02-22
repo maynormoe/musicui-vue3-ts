@@ -11,8 +11,13 @@ export const getCarousel = async () => {
 export const getPrecommend = async () => {
     return await instance.get('/personalized?limit=12')
 }
+
+export const getHighQuality = async () => {
+    return await instance.get('/top/playlist/highquality?limit=1')
+}
 export default {
     getHotSearch,
     getCarousel,
-    getPrecommend
+    getPrecommend,
+    getHighQuality
 }

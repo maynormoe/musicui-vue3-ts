@@ -1,4 +1,4 @@
-import { createRouter,createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -15,19 +15,19 @@ const router = createRouter({
                     children: [
                         {
                             path: 'personrecommend',
-                            component: () => import('@/views/Discover/DiscoverChild/Precommend.vue')
+                            component: () => import('@/views/Discover/DiscoverChild/Precommend/Precommend.vue')
                         },
                         {
                             path: 'songlist',
-                            component: () => import('@/views/Discover/DiscoverChild/SongList.vue')
+                            component: () => import('@/views/Discover/DiscoverChild/SongList/SongList.vue')
                         },
                         {
                             path: 'ranking',
-                            component: () => import('@/views/Discover/DiscoverChild/Ranking.vue')
+                            component: () => import('@/views/Discover/DiscoverChild/Ranking/Ranking.vue')
                         },
                         {
                             path: 'songer',
-                            component: () => import('@/views/Discover/DiscoverChild/Songer.vue')
+                            component: () => import('@/views/Discover/DiscoverChild/Songer/Songer.vue')
                         },
                     ]
                 },

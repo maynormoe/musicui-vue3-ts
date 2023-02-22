@@ -1,4 +1,7 @@
 <template>
+  <div class="sortBoxContainer">
+
+  </div>
 
 </template>
 

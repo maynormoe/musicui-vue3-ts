@@ -39,7 +39,8 @@ const clickBarItem = (path: any, index: any, indexData: any) => {
 
   .discover {
     overflow: scroll;
-    height: calc(100vh - 248px);
+    //height: calc(100vh - 248px);
+    height: calc(100vh - 212px);
   }
 }
 </style>

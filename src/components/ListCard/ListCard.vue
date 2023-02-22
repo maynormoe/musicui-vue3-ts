@@ -1,6 +1,6 @@
 <template>
   <div class="songList">
-    <div v-for="(item, index) in PrecommendData" :key="index" class="songListItem">
+    <div v-for="(item, index) in PrecommendData" :key="index" class="songListItem" @click="clickSongListItem">
       <div class="songCover">
         <img :src="item.picUrl" alt="">
       </div>
@@ -15,6 +15,10 @@
 import {inject} from "vue";
 
 const PrecommendData = inject<string>('PrecommendData');
+
+const clickSongListItem = () => {
+
+}
 
 </script>
 
