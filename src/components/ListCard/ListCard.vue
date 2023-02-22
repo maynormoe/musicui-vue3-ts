@@ -20,12 +20,15 @@ const PrecommendData = inject<string>('PrecommendData');
 
 <style lang="less" scoped>
 .songList {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+
   .songListItem {
     width: 30.855vmin;
     height: 30.855vmin;
-    padding: 3vmin;
+    padding: 4vmin;
     cursor: pointer;
-    overflow: hidden;
 
     .songCover {
       img {
@@ -37,9 +40,8 @@ const PrecommendData = inject<string>('PrecommendData');
 
     .songTitle {
       width: 100%;
-      height: 5vmin;
-      font-size: 2.535vmin;
-      line-height: 5vmin;
+      height: 10vmin;
+      font-size: 2vmin;
     }
   }
 }

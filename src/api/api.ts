@@ -9,7 +9,7 @@ export const getCarousel = async () => {
 }
 
 export const getPrecommend = async () => {
-    return await instance.get('/personalized?limit=10')
+    return await instance.get('/personalized?limit=12')
 }
 export default {
     getHotSearch,

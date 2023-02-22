@@ -27,13 +27,4 @@ const props = defineProps({
   }
 }
 
-.recommendSongList {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-
-  .listCard {
-    flex: 1;
-  }
-}
 </style>
