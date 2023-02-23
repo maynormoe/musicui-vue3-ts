@@ -15,9 +15,18 @@ export const getPrecommend = async () => {
 export const getHighQuality = async () => {
     return await instance.get('/top/playlist/highquality?limit=1')
 }
+
+export const getHotTag = async () => {
+    return await instance.get('/playlist/hot')
+}
+export const getSortList = async () => {
+    return await instance.get('/playlist/catlist')
+}
 export default {
     getHotSearch,
     getCarousel,
     getPrecommend,
-    getHighQuality
+    getHighQuality,
+    getHotTag,
+    getSortList
 }

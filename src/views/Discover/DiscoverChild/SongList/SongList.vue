@@ -6,10 +6,10 @@
     <div class="musicListIndex">
       <div class="musicListNavBar">
         <div class="left">
-          <SoftBox></SoftBox>
+          <SoftBox :currentTagData="currentTagData" :sortListData="sortListData"></SoftBox>
         </div>
         <div class="right">
-          <SecondNavBar></SecondNavBar>
+          <SecondNavBar :currentTagData="currentTagData" :hotTagData="hotTagData"></SecondNavBar>
         </div>
       </div>
       <div class="musicList"></div>
@@ -28,9 +28,30 @@ import SoftBox from "@/components/SortBox/SortBox.vue";
 
 const highQualityData = ref('')
 
+const currentTagData = ref('')
+
+const hotTagData = ref('')
+
+const sortListData = ref('')
+
 api.getHighQuality().then(res => {
   console.log(res.playlists)
   highQualityData.value = res.playlists
+}).catch(error => {
+  console.log(error)
+})
+
+api.getHotTag().then(res => {
+  console.log(res.tags)
+  currentTagData.value = res.tags[0]
+  hotTagData.value = res.tags
+}).catch(error => {
+  console.log(error)
+})
+
+api.getSortList().then(res => {
+  console.log(res.sub)
+  sortListData.value = res.sub
 }).catch(error => {
   console.log(error)
 })
@@ -45,6 +66,20 @@ api.getHighQuality().then(res => {
 
   .highQuality {
     padding: 3vmin;
+
+    .musicListIndex {
+      .musicListNavBar {
+        display: flex;
+
+        .left {
+          width: 130px !important;
+        }
+
+        .right {
+          width: 130px !important;
+        }
+      }
+    }
   }
 }
 </style>
