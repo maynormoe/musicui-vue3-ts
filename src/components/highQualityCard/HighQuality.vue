@@ -10,7 +10,7 @@
       </div>
       <div class="boutique">
         <div class="icon">
-          <thumbs-up fill="#FFD700" size="30" strokeLinecap="butt" strokeLinejoin="bevel" theme="outline"/>
+          <thumbs-up fill="#FFD700" size="4vmin" strokeLinecap="butt" strokeLinejoin="bevel" theme="outline"/>
           <span>精品歌单</span>
         </div>
       </div>
@@ -97,6 +97,7 @@ const props = defineProps({
           line-height: 4.1333vmin;
           font-weight: bold;
           color: gold;
+          font-size: 2vmin;
         }
       }
     }

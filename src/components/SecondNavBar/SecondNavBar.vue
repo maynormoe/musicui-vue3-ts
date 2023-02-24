@@ -1,14 +1,14 @@
 <template>
   <div class="sNavBarContainer">
     <div v-for="(item, index) in props.hotTagData" :key="index" :class="index == activeNum ? 'active' : ''"
-         class="sNavBarItem">
+         class="sNavBarItem" @click="clicksNavBarItem(index)">
       <span>{{ item.name }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 const props = defineProps({
   hotTagData: {
@@ -21,7 +21,23 @@ const props = defineProps({
   }
 });
 
-const activeIndex = ref(-1)
+let activeIndex = ref(-1)
+
+const emits = defineEmits(['clicksNavBarItem']);
+
+const clicksNavBarItem = (index: number) => {
+  if (activeIndex.value == index) {
+    return;
+  }
+  activeIndex.value = index
+  emits("clicksNavBarItem", index)
+}
+watch(() => props.currentTagData,
+    (current) => {
+      activeIndex = props.hotTagData.findIndex(
+          (item: { name: any; }) => item.name == current
+      )
+    })
 </script>
 
 <style lang="less" scoped>
@@ -35,7 +51,6 @@ const activeIndex = ref(-1)
   border-radius: 20px;
 
   .sNavBarItem {
-    border: 1px solid #ccc;
     border-radius: 2vmin;
     box-shadow: 0 0 2px 2px rgb(255, 255, 255);
     margin: 0 0.55vmin;
@@ -47,5 +62,10 @@ const activeIndex = ref(-1)
       font-size: 2.233vmin;
     }
   }
+}
+
+.active {
+  background-color: #fdf5f5;
+  color: #ec4747;
 }
 </style>
