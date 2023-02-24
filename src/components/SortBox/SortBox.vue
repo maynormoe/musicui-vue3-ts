@@ -15,7 +15,7 @@
       </template>
     </el-popover>
     <transition>
-      <div v-if="isShowSortPop" class="sortList">
+      <div v-show="isShowSortPop" class="sortList">
         <el-card class="sortCard" shadow="always">
           <div v-for="(item, index) in props.sortListData" :key="index" class="sortItem">
             {{ item.name }}
@@ -71,6 +71,10 @@ const toggleSortPop = () => {
 }
 
 .sortList {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   :deep(.el-card__body) {
     display: flex;
     flex-wrap: wrap;
@@ -86,6 +90,7 @@ const toggleSortPop = () => {
         background: #D7DBDD;
         opacity: 0.8;
         border-radius: 2vmin;
+        color: #ec4141;
       }
     }
   }

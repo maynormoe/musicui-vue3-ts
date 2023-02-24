@@ -66,18 +66,22 @@ api.getSortList().then(res => {
 
   .highQuality {
     padding: 3vmin;
+  }
 
-    .musicListIndex {
-      .musicListNavBar {
-        display: flex;
+  .musicListIndex {
+    .musicListNavBar {
+      display: flex;
+      position: relative;
 
-        .left {
-          width: 130px !important;
-        }
+      .left {
+        float: left;
+      }
 
-        .right {
-          width: 130px !important;
-        }
+      .right {
+        float: right;
+        position: absolute;
+        left: 50vmin;
+        bottom: 0;
       }
     }
   }

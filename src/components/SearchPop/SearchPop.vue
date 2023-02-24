@@ -28,11 +28,12 @@ api.getHotSearch().then(res => {
 </script>
 
 
-<style lang="less">
+<style lang="less" scoped>
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   span {
     padding-bottom: 1vmin;
     font-size: 2.355vmin;
