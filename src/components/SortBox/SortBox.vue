@@ -17,7 +17,8 @@
     <transition>
       <div v-show="isShowSortPop" class="sortList">
         <el-card class="sortCard" shadow="always">
-          <div v-for="(item, index) in props.sortListData" :key="index" class="sortItem">
+          <div v-for="(item, index) in props.sortListData" :key="index" :class="index === activeIndex ? 'active' : ''"
+               class="sortItem" @click="clickSortItem(index)">
             {{ item.name }}
           </div>
         </el-card>
@@ -27,7 +28,7 @@
 
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {Right} from '@icon-park/vue-next'
 import {ref} from "vue";
 
@@ -44,12 +45,24 @@ const props = defineProps({
 
 const isShowSortPop = ref(false);
 
+const activeIndex = ref(-1);
+
 const toggleSortPop = () => {
   if (isShowSortPop.value) {
     isShowSortPop.value = false
   } else {
     isShowSortPop.value = true
   }
+}
+
+const emits = defineEmits(['clickSortItem']);
+
+const clickSortItem = (index: number) => {
+  if (activeIndex.value == index) {
+    return;
+  }
+  activeIndex.value = index
+  emits("clickSortItem", index)
 }
 </script>
 
@@ -85,6 +98,7 @@ const toggleSortPop = () => {
       text-align: center;
       cursor: pointer;
       color: #555;
+      border-radius: 3vmin;
 
       &:hover {
         background: #D7DBDD;
@@ -121,4 +135,8 @@ const toggleSortPop = () => {
   opacity: 0;
 }
 
+.active {
+  background-color: #f5c6c6;
+  color: #ec4141;
+}
 </style>

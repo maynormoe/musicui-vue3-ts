@@ -6,7 +6,7 @@
     <div class="musicListIndex">
       <div class="musicListNavBar">
         <div class="left">
-          <SoftBox :currentTagData="currentTagData" :sortListData="sortListData"></SoftBox>
+          <SoftBox :currentTagData="currentTagData" :sortListData="sortListData" @clicksNavBarItem=""></SoftBox>
         </div>
         <div class="right">
           <SecondNavBar :currentTagData="currentTagData" :hotTagData="hotTagData"></SecondNavBar>

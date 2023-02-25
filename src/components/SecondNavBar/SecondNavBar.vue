@@ -1,8 +1,8 @@
 <template>
   <div class="sNavBarContainer">
-    <div v-for="(item, index) in props.hotTagData" :key="index" :class="index == activeNum ? 'active' : ''"
+    <div v-for="(item, index) in props.hotTagData" :key="index" :class="index === activeIndex? 'active' : ''"
          class="sNavBarItem" @click="clicksNavBarItem(index)">
-      <span>{{ item.name }}</span>
+      <span :class="index === activeIndex ? 'activeFont' : ''">{{ item.name }}</span>
     </div>
   </div>
 </template>
@@ -21,7 +21,7 @@ const props = defineProps({
   }
 });
 
-let activeIndex = ref(-1)
+const activeIndex = ref(-1)
 
 const emits = defineEmits(['clicksNavBarItem']);
 
@@ -34,7 +34,7 @@ const clicksNavBarItem = (index: number) => {
 }
 watch(() => props.currentTagData,
     (current) => {
-      activeIndex = props.hotTagData.findIndex(
+      activeIndex.value = props.hotTagData.findIndex(
           (item: { name: any; }) => item.name == current
       )
     })
@@ -65,7 +65,10 @@ watch(() => props.currentTagData,
 }
 
 .active {
-  background-color: #fdf5f5;
-  color: #ec4747;
+  background-color: #f5c6c6;
+}
+
+.activeFont {
+  color: #ec4141;
 }
 </style>
