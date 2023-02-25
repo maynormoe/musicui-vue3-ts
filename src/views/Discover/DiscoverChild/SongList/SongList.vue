@@ -10,12 +10,20 @@
                    @clickSortItem="clickSortItem"></SoftBox>
         </div>
         <div class="right">
-          <SecondNavBar :currentTagData="currentTagData" :hotTagData="hotTagData"
+          <SecondNavBar :currentTagData="currentTagData"
+                        :hotTagData="hotTagData"
                         @clicksNavBarItem="clicksNavBarItem"></SecondNavBar>
         </div>
       </div>
       <div class="musicList">
         <ListCard></ListCard>
+      </div>
+      <div v-if="songListData" class="page">
+        <el-pagination
+            v-model:current-page="currentPageData"
+            :total="100"
+            background layout="prev, pager, next "
+            @current-change="pageChange"/>
       </div>
     </div>
   </div>
@@ -43,6 +51,8 @@ const sortListData = ref('')
 
 const songListData: any = ref('')
 
+const currentPageData = ref(1)
+
 provide('PrecommendData', songListData)
 
 api.getHighQuality().then(res => {
@@ -67,22 +77,38 @@ api.getSortList().then(res => {
   console.log(error)
 })
 
-interface Icat {
-  cat: any
+const getSongList = () => {
+  request.get('/top/playlist', {
+    params: {
+      cat: currentTagData.value,
+      offset: (currentPageData.value - 1) * 40,
+      limit: 40
+    },
+  }).then(res => {
+    console.log(res.playlists)
+    songListData.value = res.playlists
+  }).catch(error => {
+    console.log(error)
+  });
 }
-
-request.get('/top/playlist', {cat: currentTagData.value as Icat}).then(res => {
-  console.log(res.playlists)
-  songListData.value = res.playlists
-})
+getSongList()
 const clickSortItem = (item: any) => {
   currentTagData.value = item
+  getSongList()
 }
 
 const clicksNavBarItem = (index: number) => {
   const selectedTag = hotTagData.value[index];
   currentTagData.value = selectedTag;
+  getSongList()
 }
+
+const pageChange = (page: number) => {
+  console.log(page, "====================")
+  currentPageData.value = page
+  getSongList()
+}
+
 </script>
 
 <style lang="less" scoped>
@@ -110,6 +136,23 @@ const clicksNavBarItem = (index: number) => {
         position: absolute;
         left: 50vmin;
         bottom: 0;
+      }
+    }
+
+    .page {
+      width: 100%;
+      height: 5vmin;
+      margin: 5vmin;
+      box-sizing: content-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .el-pagination {
+        :deep(.number) {
+          border-radius: 1vmin;
+          background: #ec8282;
+        }
       }
     }
   }
