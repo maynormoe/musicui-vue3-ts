@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, watch} from "vue";
+import {ref} from "vue";
 
 const props = defineProps({
   hotTagData: {
@@ -32,12 +32,7 @@ const clicksNavBarItem = (index: number) => {
   activeIndex.value = index
   emits("clicksNavBarItem", index)
 }
-watch(() => props.currentTagData,
-    (current) => {
-      activeIndex.value = props.hotTagData.findIndex(
-          (item: { name: any; }) => item.name == current
-      )
-    })
+
 </script>
 
 <style lang="less" scoped>

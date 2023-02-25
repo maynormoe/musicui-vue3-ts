@@ -6,10 +6,12 @@
     <div class="musicListIndex">
       <div class="musicListNavBar">
         <div class="left">
-          <SoftBox :currentTagData="currentTagData" :sortListData="sortListData" @clicksNavBarItem=""></SoftBox>
+          <SoftBox :currentTagData="currentTagData" :sortListData="sortListData"
+                   @clickSortItem="clickSortItem"></SoftBox>
         </div>
         <div class="right">
-          <SecondNavBar :currentTagData="currentTagData" :hotTagData="hotTagData"></SecondNavBar>
+          <SecondNavBar :currentTagData="currentTagData" :hotTagData="hotTagData"
+                        @clicksNavBarItem="clicksNavBarItem"></SecondNavBar>
         </div>
       </div>
       <div class="musicList"></div>
@@ -55,6 +57,15 @@ api.getSortList().then(res => {
 }).catch(error => {
   console.log(error)
 })
+
+const clickSortItem = (item: any) => {
+  currentTagData.value = item
+}
+
+const clicksNavBarItem = (index: number) => {
+  const selectedTag = hotTagData.value[index];
+  currentTagData.value = selectedTag;
+}
 </script>
 
 <style lang="less" scoped>

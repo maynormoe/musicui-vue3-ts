@@ -9,7 +9,7 @@
     >
       <template #reference>
         <div class="sortBox" @click="toggleSortPop">
-          <span>{{ props.currentTagData.name }}</span>
+          <span>{{ currentTagData.name }}</span>
           <right fill="#ddd" size="24" strokeLinecap="butt" strokeLinejoin="bevel" theme="outline"/>
         </div>
       </template>
@@ -17,8 +17,8 @@
     <transition>
       <div v-show="isShowSortPop" class="sortList">
         <el-card class="sortCard" shadow="always">
-          <div v-for="(item, index) in props.sortListData" :key="index" :class="index === activeIndex ? 'active' : ''"
-               class="sortItem" @click="clickSortItem(index)">
+          <div v-for="(item, index) in sortListData" :key="index" :class="index === activeIndex ? 'active' : ''"
+               class="sortItem" @click="clickSortItem(index, item)">
             {{ item.name }}
           </div>
         </el-card>
@@ -57,12 +57,13 @@ const toggleSortPop = () => {
 
 const emits = defineEmits(['clickSortItem']);
 
-const clickSortItem = (index: number) => {
+const clickSortItem = (index: number, item: any) => {
   if (activeIndex.value == index) {
     return;
   }
   activeIndex.value = index
-  emits("clickSortItem", index)
+  emits("clickSortItem", item)
+  isShowSortPop.value = false
 }
 </script>
 
