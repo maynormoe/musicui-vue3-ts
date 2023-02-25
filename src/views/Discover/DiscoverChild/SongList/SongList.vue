@@ -14,7 +14,9 @@
                         @clicksNavBarItem="clicksNavBarItem"></SecondNavBar>
         </div>
       </div>
-      <div class="musicList"></div>
+      <div class="musicList">
+        <ListCard></ListCard>
+      </div>
     </div>
   </div>
 </template>
@@ -23,10 +25,13 @@
 
 import HighQuality from "@/components/highQualityCard/HighQuality.vue";
 
+import request from "@/network/request";
+
 import api from "@/api/api";
-import {ref} from "vue";
+import {provide, ref} from "vue";
 import SecondNavBar from "@/components/SecondNavBar/SecondNavBar.vue";
 import SoftBox from "@/components/SortBox/SortBox.vue";
+import ListCard from "@/components/ListCard/ListCard.vue";
 
 const highQualityData = ref('')
 
@@ -35,6 +40,10 @@ const currentTagData = ref('')
 const hotTagData = ref('')
 
 const sortListData = ref('')
+
+const songListData: any = ref('')
+
+provide('PrecommendData', songListData)
 
 api.getHighQuality().then(res => {
   console.log(res.playlists)
@@ -58,6 +67,14 @@ api.getSortList().then(res => {
   console.log(error)
 })
 
+interface Icat {
+  cat: any
+}
+
+request.get('/top/playlist', {cat: currentTagData.value as Icat}).then(res => {
+  console.log(res.playlists)
+  songListData.value = res.playlists
+})
 const clickSortItem = (item: any) => {
   currentTagData.value = item
 }

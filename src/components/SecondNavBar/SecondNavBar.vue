@@ -1,8 +1,8 @@
 <template>
   <div class="sNavBarContainer">
-    <div v-for="(item, index) in props.hotTagData" :key="index" :class="index === activeIndex? 'active' : ''"
+    <div v-for="(item, index) in hotTagData" :key="index" :class="currentTagData.name === item.name ? 'active' : ''"
          class="sNavBarItem" @click="clicksNavBarItem(index)">
-      <span :class="index === activeIndex ? 'activeFont' : ''">{{ item.name }}</span>
+      <span :class="currentTagData.name === item.name ? 'activeFont' : ''">{{ item.name }}</span>
     </div>
   </div>
 </template>

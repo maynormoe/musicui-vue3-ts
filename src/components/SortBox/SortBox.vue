@@ -17,7 +17,8 @@
     <transition>
       <div v-show="isShowSortPop" class="sortList">
         <el-card class="sortCard" shadow="always">
-          <div v-for="(item, index) in sortListData" :key="index" :class="index === activeIndex ? 'active' : ''"
+          <div v-for="(item, index) in sortListData" :key="index"
+               :class="currentTagData.name === item.name ? 'active' : ''"
                class="sortItem" @click="clickSortItem(index, item)">
             {{ item.name }}
           </div>

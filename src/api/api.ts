@@ -22,6 +22,7 @@ export const getHotTag = async () => {
 export const getSortList = async () => {
     return await instance.get('/playlist/catlist')
 }
+
 export default {
     getHotSearch,
     getCarousel,

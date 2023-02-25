@@ -2,7 +2,7 @@
   <div class="songList">
     <div v-for="(item, index) in PrecommendData" :key="index" class="songListItem" @click="clickSongListItem">
       <div class="songCover">
-        <img :src="item.picUrl" alt="">
+        <img :src="item.coverImgUrl || item.picUrl" alt="">
       </div>
       <div class="songTitle">
         <span>{{ item.name }}</span>
