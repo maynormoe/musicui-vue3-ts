@@ -1,12 +1,8 @@
 <template>
-  <div class="recommend">
-
-  </div>
+  <div class="recommend"></div>
 </template>
 
-<script setup lang="ts">
-
-</script>
+<script lang="ts" setup></script>
 
 <style lang="less" scoped>
 .recommend {

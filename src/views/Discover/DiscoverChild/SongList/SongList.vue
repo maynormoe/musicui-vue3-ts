@@ -6,13 +6,18 @@
     <div class="musicListIndex">
       <div class="musicListNavBar">
         <div class="left">
-          <SoftBox :currentTagData="currentTagData" :sortListData="sortListData"
-                   @clickSortItem="clickSortItem"></SoftBox>
+          <SoftBox
+            :currentTagData="currentTagData"
+            :sortListData="sortListData"
+            @clickSortItem="clickSortItem"
+          ></SoftBox>
         </div>
         <div class="right">
-          <SecondNavBar :currentTagData="currentTagData"
-                        :hotTagData="hotTagData"
-                        @clicksNavBarItem="clicksNavBarItem"></SecondNavBar>
+          <SecondNavBar
+            :currentTagData="currentTagData"
+            :hotTagData="hotTagData"
+            @clicksNavBarItem="clicksNavBarItem"
+          ></SecondNavBar>
         </div>
       </div>
       <div class="musicList">
@@ -20,95 +25,107 @@
       </div>
       <div v-if="songListData" class="page">
         <el-pagination
-            v-model:current-page="currentPageData"
-            :total="100"
-            background layout="prev, pager, next "
-            @current-change="pageChange"/>
+          v-model:current-page="currentPageData"
+          :total="100"
+          background
+          layout="prev, pager, next "
+          @current-change="pageChange"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-
 import HighQuality from "@/components/highQualityCard/HighQuality.vue";
 
 import request from "@/network/request";
 
 import api from "@/api/api";
-import {provide, ref} from "vue";
+import { provide, ref } from "vue";
 import SecondNavBar from "@/components/SecondNavBar/SecondNavBar.vue";
 import SoftBox from "@/components/SortBox/SortBox.vue";
 import ListCard from "@/components/ListCard/ListCard.vue";
 
-const highQualityData = ref('')
+const highQualityData = ref("");
 
-const currentTagData = ref('')
+const currentTagData = ref("");
 
-const hotTagData = ref('')
+const hotTagData = ref("");
 
-const sortListData = ref('')
+const sortListData = ref("");
 
-const songListData: any = ref('')
+const songListData: any = ref("");
 
-const currentPageData = ref(1)
+const currentPageData = ref(1);
 
-provide('PrecommendData', songListData)
+provide("PrecommendData", songListData);
 
-api.getHighQuality().then(res => {
-  console.log(res.playlists)
-  highQualityData.value = res.playlists
-}).catch(error => {
-  console.log(error)
-})
+api
+  .getHighQuality()
+  .then((res) => {
+    console.log(res.playlists);
+    highQualityData.value = res.playlists;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
-api.getHotTag().then(res => {
-  console.log(res.tags)
-  currentTagData.value = res.tags[0]
-  hotTagData.value = res.tags
-}).catch(error => {
-  console.log(error)
-})
+api
+  .getHotTag()
+  .then((res) => {
+    console.log(res.tags);
+    currentTagData.value = res.tags[0];
+    hotTagData.value = res.tags;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
-api.getSortList().then(res => {
-  console.log(res.sub)
-  sortListData.value = res.sub
-}).catch(error => {
-  console.log(error)
-})
+api
+  .getSortList()
+  .then((res) => {
+    console.log(res.sub);
+    sortListData.value = res.sub;
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 const getSongList = () => {
-  request.get('/top/playlist', {
-    params: {
-      cat: currentTagData.value,
-      offset: (currentPageData.value - 1) * 40,
-      limit: 40
-    },
-  }).then(res => {
-    console.log(res.playlists)
-    songListData.value = res.playlists
-  }).catch(error => {
-    console.log(error)
-  });
-}
-getSongList()
+  request
+    .get("/top/playlist", {
+      params: {
+        cat: currentTagData.value,
+        offset: (currentPageData.value - 1) * 40,
+        limit: 40,
+      },
+    })
+    .then((res) => {
+      console.log(res.playlists);
+      songListData.value = res.playlists;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+getSongList();
 const clickSortItem = (item: any) => {
-  currentTagData.value = item
-  getSongList()
-}
+  currentTagData.value = item;
+  getSongList();
+};
 
 const clicksNavBarItem = (index: number) => {
   const selectedTag = hotTagData.value[index];
   currentTagData.value = selectedTag;
-  getSongList()
-}
+  getSongList();
+};
 
 const pageChange = (page: number) => {
-  console.log(page, "====================")
-  currentPageData.value = page
-  getSongList()
-}
-
+  console.log(page, "====================");
+  currentPageData.value = page;
+  getSongList();
+};
 </script>
 
 <style lang="less" scoped>

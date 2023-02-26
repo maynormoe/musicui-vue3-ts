@@ -1,33 +1,29 @@
 <template>
   <div class="menuLeft">
-    <el-menu
-        active-text-color="#ec4141"
-        class="el-menu-vertical-demo"
-        router
-    >
-        <el-menu-item index="/discover">
-          <music theme="outline" size="25" fill="#ec4141" class="Icon"/>
-          <span slot="title">发现音乐</span>
-        </el-menu-item>
-        <el-menu-item index="/video">
-          <carousel-video theme="outline" size="25" fill="#ec4141" class="Icon"/>
-          <span slot="title">视频</span>
-        </el-menu-item>
-        <el-menu-item index="/dj">
-          <fm theme="outline" size="25" fill="#ec4141" class="Icon"/>
-          <span slot="title">电台</span>
-        </el-menu-item>
-        <el-menu-item index="/recommend">
-          <thumbs-up theme="outline" size="25" fill="#ec4141" class="Icon"/>
-          <span slot="title">每日推荐</span>
-        </el-menu-item>
+    <el-menu active-text-color="#ec4141" class="el-menu-vertical-demo" router>
+      <el-menu-item index="/discover">
+        <music class="Icon" fill="#ec4141" size="25" theme="outline" />
+        <span slot="title">发现音乐</span>
+      </el-menu-item>
+      <el-menu-item index="/video">
+        <carousel-video class="Icon" fill="#ec4141" size="25" theme="outline" />
+        <span slot="title">视频</span>
+      </el-menu-item>
+      <el-menu-item index="/dj">
+        <fm class="Icon" fill="#ec4141" size="25" theme="outline" />
+        <span slot="title">电台</span>
+      </el-menu-item>
+      <el-menu-item index="/recommend">
+        <thumbs-up class="Icon" fill="#ec4141" size="25" theme="outline" />
+        <span slot="title">每日推荐</span>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
 
-<script setup lang="ts">
-
-import {CarouselVideo, Fm, Music, ThumbsUp} from '@icon-park/vue-next'</script>
+<script lang="ts" setup>
+import { CarouselVideo, Fm, Music, ThumbsUp } from "@icon-park/vue-next";
+</script>
 
 <style lang="less" scoped>
 .menuLeft {
@@ -57,5 +53,4 @@ import {CarouselVideo, Fm, Music, ThumbsUp} from '@icon-park/vue-next'</script>
     }
   }
 }
-
 </style>

@@ -1,16 +1,14 @@
-<script setup lang="ts">
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
-<RouterView />
+  <RouterView />
 </template>
 
 <style lang="less">
 body {
   padding: 0;
   margin: 0;
-  background: #EAECEF;
+  background: #eaecef;
   box-sizing: border-box;
   font-family: sans-serif;
 }

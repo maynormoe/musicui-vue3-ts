@@ -1,34 +1,31 @@
 <!--  <div class="headerBar">-->
 <!--    <HeaderBar></HeaderBar>-->
 <!--  </div>-->
-  <template>
-    <div class="layout">
+<template>
+  <div class="layout">
+    <el-container>
+      <el-header>
+        <HeaderBar></HeaderBar>
+      </el-header>
       <el-container>
-        <el-header>
-          <HeaderBar></HeaderBar>
-        </el-header>
-        <el-container>
-          <el-aside>
-            <Menu></Menu>
-          </el-aside>
-          <el-main>
-            <RouterView class="routerView" :key="$route.fullPath"></RouterView>
-          </el-main>
-        </el-container>
+        <el-aside>
+          <Menu></Menu>
+        </el-aside>
+        <el-main>
+          <RouterView :key="$route.fullPath" class="routerView"></RouterView>
+        </el-main>
       </el-container>
-      <div class="footer">
-        <MusicController></MusicController>
-      </div>
+    </el-container>
+    <div class="footer">
+      <MusicController></MusicController>
     </div>
-
+  </div>
 </template>
 
-<script setup lang="ts">
-
+<script lang="ts" setup>
 import HeaderBar from "@/components/HeaderBar/HeaderBar.vue";
 import Menu from "@/components/Menu/Menu.vue";
 import MusicController from "@/components/MusicController/MusicController.vue";
-
 </script>
 
 <style lang="less" scoped>
@@ -50,6 +47,7 @@ import MusicController from "@/components/MusicController/MusicController.vue";
   margin: 0;
   padding: 0;
 }
+
 .footer {
   position: fixed;
   bottom: 0;

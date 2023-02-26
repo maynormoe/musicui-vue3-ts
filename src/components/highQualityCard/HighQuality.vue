@@ -1,16 +1,26 @@
 <template>
   <div class="highQualityContainer">
-    <div v-for="(item,index) in props.highQualityData" :key="index" class="highQuality">
-      <img :src="item.coverImgUrl" class="backgroundImg">
+    <div
+      v-for="(item, index) in props.highQualityData"
+      :key="index"
+      class="highQuality"
+    >
+      <img :src="item.coverImgUrl" class="backgroundImg" />
       <div class="cover">
-        <img :src="item.coverImgUrl">
+        <img :src="item.coverImgUrl" />
       </div>
       <div class="title">
         <span>{{ item.name }}</span>
       </div>
       <div class="boutique">
         <div class="icon">
-          <thumbs-up fill="#FFD700" size="4vmin" strokeLinecap="butt" strokeLinejoin="bevel" theme="outline"/>
+          <thumbs-up
+            fill="#FFD700"
+            size="4vmin"
+            strokeLinecap="butt"
+            strokeLinejoin="bevel"
+            theme="outline"
+          />
           <span>精品歌单</span>
         </div>
       </div>
@@ -19,15 +29,15 @@
 </template>
 
 <script lang="ts" setup>
-import type {PropType} from "vue";
+import type { PropType } from "vue";
 
-import {ThumbsUp} from '@icon-park/vue-next'
+import { ThumbsUp } from "@icon-park/vue-next";
 
 const props = defineProps({
   highQualityData: {
     type: Object as PropType<any>,
-    required: true
-  }
+    required: true,
+  },
 });
 </script>
 

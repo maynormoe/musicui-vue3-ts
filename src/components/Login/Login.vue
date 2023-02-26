@@ -1,8 +1,6 @@
 <template>
   <div class="loginCard">
-    <el-card class="box-card">
-
-    </el-card>
+    <el-card class="box-card"></el-card>
   </div>
 </template>
 <style lang="less" scoped>

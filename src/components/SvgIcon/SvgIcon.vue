@@ -1,34 +1,35 @@
 <template>
   <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="iconClassName" :fill="color" />
+    <use :fill="color" :xlink:href="iconClassName" />
   </svg>
 </template>
-<script setup lang="ts">
-import { computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from "vue";
+
 const props = defineProps({
   iconName: {
     type: String,
-    required: true
+    required: true,
   },
   className: {
     type: String,
-    default: ''
+    default: "",
   },
   color: {
     type: String,
-    default: '#409eff'
-  }
+    default: "#409eff",
+  },
 });
 // 图标在 iconfont 中的名字
-const iconClassName = computed(()=>{
+const iconClassName = computed(() => {
   return `#${props.iconName}`;
-})
+});
 // 给图标添加上类名
 const svgClass = computed(() => {
   if (props.className) {
     return `svg-icon ${props.className}`;
   }
-  return 'svg-icon';
+  return "svg-icon";
 });
 </script>
 <style scoped>

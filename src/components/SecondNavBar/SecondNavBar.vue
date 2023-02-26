@@ -1,38 +1,44 @@
 <template>
   <div class="sNavBarContainer">
-    <div v-for="(item, index) in hotTagData" :key="index" :class="currentTagData.name === item.name ? 'active' : ''"
-         class="sNavBarItem" @click="clicksNavBarItem(index)">
-      <span :class="currentTagData.name === item.name ? 'activeFont' : ''">{{ item.name }}</span>
+    <div
+      v-for="(item, index) in hotTagData"
+      :key="index"
+      :class="currentTagData.name === item.name ? 'active' : ''"
+      class="sNavBarItem"
+      @click="clicksNavBarItem(index)"
+    >
+      <span :class="currentTagData.name === item.name ? 'activeFont' : ''">{{
+        item.name
+      }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
   hotTagData: {
     type: Object,
-    required: true
+    required: true,
   },
   currentTagData: {
     type: Array,
-    required: true
-  }
+    required: true,
+  },
 });
 
-const activeIndex = ref(-1)
+const activeIndex = ref(-1);
 
-const emits = defineEmits(['clicksNavBarItem']);
+const emits = defineEmits(["clicksNavBarItem"]);
 
 const clicksNavBarItem = (index: number) => {
   if (activeIndex.value == index) {
     return;
   }
-  activeIndex.value = index
-  emits("clicksNavBarItem", index)
-}
-
+  activeIndex.value = index;
+  emits("clicksNavBarItem", index);
+};
 </script>
 
 <style lang="less" scoped>

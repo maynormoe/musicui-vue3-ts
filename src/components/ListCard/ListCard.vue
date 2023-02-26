@@ -1,8 +1,13 @@
 <template>
   <div class="songList">
-    <div v-for="(item, index) in PrecommendData" :key="index" class="songListItem" @click="clickSongListItem">
+    <div
+      v-for="(item, index) in PrecommendData"
+      :key="index"
+      class="songListItem"
+      @click="clickSongListItem"
+    >
       <div class="songCover">
-        <img :src="item.coverImgUrl || item.picUrl" alt="">
+        <img :src="item.coverImgUrl || item.picUrl" alt="" />
       </div>
       <div class="songTitle">
         <span>{{ item.name }}</span>
@@ -12,14 +17,11 @@
 </template>
 
 <script lang="ts" setup>
-import {inject} from "vue";
+import { inject } from "vue";
 
-const PrecommendData = inject<string>('PrecommendData');
+const PrecommendData = inject<string>("PrecommendData");
 
-const clickSongListItem = () => {
-
-}
-
+const clickSongListItem = () => {};
 </script>
 
 <style lang="less" scoped>

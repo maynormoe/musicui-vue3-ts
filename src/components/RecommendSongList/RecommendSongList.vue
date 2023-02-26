@@ -12,8 +12,8 @@ import ListCard from "@/components/ListCard/ListCard.vue";
 
 const props = defineProps({
   title: {
-    type: String
-  }
+    type: String,
+  },
 });
 </script>
 
@@ -26,5 +26,4 @@ const props = defineProps({
     font-weight: bold;
   }
 }
-
 </style>

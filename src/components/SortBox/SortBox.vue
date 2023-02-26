@@ -1,47 +1,56 @@
 <template>
   <div class="sortBoxContainer">
     <el-popover
-        :visible="false"
-        :width="350"
-        placement="bottom-start"
-        popper-class="sortPop"
-        trigger="click"
+      :visible="false"
+      :width="350"
+      placement="bottom-start"
+      popper-class="sortPop"
+      trigger="click"
     >
       <template #reference>
         <div class="sortBox" @click="toggleSortPop">
           <span>{{ currentTagData.name }}</span>
-          <right fill="#ddd" size="24" strokeLinecap="butt" strokeLinejoin="bevel" theme="outline"/>
+          <right
+            fill="#ddd"
+            size="24"
+            strokeLinecap="butt"
+            strokeLinejoin="bevel"
+            theme="outline"
+          />
         </div>
       </template>
     </el-popover>
     <transition>
       <div v-show="isShowSortPop" class="sortList">
         <el-card class="sortCard" shadow="always">
-          <div v-for="(item, index) in sortListData" :key="index"
-               :class="currentTagData.name === item.name ? 'active' : ''"
-               class="sortItem" @click="clickSortItem(index, item)">
+          <div
+            v-for="(item, index) in sortListData"
+            :key="index"
+            :class="currentTagData.name === item.name ? 'active' : ''"
+            class="sortItem"
+            @click="clickSortItem(index, item)"
+          >
             {{ item.name }}
           </div>
         </el-card>
       </div>
     </transition>
   </div>
-
 </template>
 
 <script lang="ts" setup>
-import {Right} from '@icon-park/vue-next'
-import {ref} from "vue";
+import { Right } from "@icon-park/vue-next";
+import { ref } from "vue";
 
 const props = defineProps({
   sortListData: {
     type: Array,
-    required: true
+    required: true,
   },
   currentTagData: {
     type: Array,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const isShowSortPop = ref(false);
@@ -50,22 +59,22 @@ const activeIndex = ref(-1);
 
 const toggleSortPop = () => {
   if (isShowSortPop.value) {
-    isShowSortPop.value = false
+    isShowSortPop.value = false;
   } else {
-    isShowSortPop.value = true
+    isShowSortPop.value = true;
   }
-}
+};
 
-const emits = defineEmits(['clickSortItem']);
+const emits = defineEmits(["clickSortItem"]);
 
 const clickSortItem = (index: number, item: any) => {
   if (activeIndex.value == index) {
     return;
   }
-  activeIndex.value = index
-  emits("clickSortItem", item)
-  isShowSortPop.value = false
-}
+  activeIndex.value = index;
+  emits("clickSortItem", item);
+  isShowSortPop.value = false;
+};
 </script>
 
 <style lang="less" scoped>
@@ -103,7 +112,7 @@ const clickSortItem = (index: number, item: any) => {
       border-radius: 3vmin;
 
       &:hover {
-        background: #D7DBDD;
+        background: #d7dbdd;
         opacity: 0.8;
         border-radius: 2vmin;
         color: #ec4141;
