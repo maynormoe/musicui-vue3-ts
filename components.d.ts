@@ -26,6 +26,7 @@ declare module "@vue/runtime-core" {
     HeaderBar: typeof import("./src/components/HeaderBar/HeaderBar.vue")["default"];
     HighQuality: typeof import("./src/components/highQualityCard/HighQuality.vue")["default"];
     ListCard: typeof import("./src/components/ListCard/ListCard.vue")["default"];
+    ListTable: typeof import("./src/components/ListTable/ListTable.vue")["default"];
     Login: typeof import("./src/components/Login/Login.vue")["default"];
     Menu: typeof import("./src/components/Menu/Menu.vue")["default"];
     MusicController: typeof import("./src/components/MusicController/MusicController.vue")["default"];
