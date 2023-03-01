@@ -20,10 +20,10 @@
         </div>
         <div class="selectorItem">
           <div class="title">
-            <span>筛选：</span>
+            <span>分类：</span>
           </div>
           <div class="sort">
-            <SecondNavBar :hot-tag-data="filterData"></SecondNavBar>
+            <SecondNavBar :hot-tag-data="typeSortData"></SecondNavBar>
           </div>
         </div>
       </div>
@@ -62,11 +62,10 @@ const typeSortData = ref<ItypeSortData[]>([
 ]);
 
 interface IFilterData {
-  initial?: number | string;
-  name?: string;
+  in;
 }
 
-const filterData = ref<IFilterData[]>([
+const filterData = ref([
   { initial: -1, name: "热门" },
   { initial: "a", name: "A" },
   { initial: "b", name: "B" },

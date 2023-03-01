@@ -1,13 +1,13 @@
 <template>
   <div class="sNavBarContainer">
     <div
-      v-for="(item, index) in hotTagData"
+      v-for="(item, index) of hotTagData"
       :key="index"
-      :class="currentTagData.name === item.name ? 'active' : ''"
+      :class="currentTabIndex === index ? 'active' : ''"
       class="sNavBarItem"
       @click="clicksNavBarItem(Number(index))"
     >
-      <span :class="currentTagData.name === item.name ? 'activeFont' : ''">{{
+      <span :class="currentTabIndex === index ? 'activeFont' : ''">{{
         item.name
       }}</span>
     </div>
@@ -15,9 +15,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, watchEffect } from "vue";
+import { ref, watch } from "vue";
 
 type HotTagDataType = { area?: number; name?: string };
+const currentTabIndex = ref(0);
 
 const props = withDefaults(
   defineProps<{
@@ -34,16 +35,12 @@ watch(props.hotTagData, (value, oldValue, onCleanup) => {
   console.log("value", value);
 });
 
-watchEffect(() => {
-  console.log("props.hotTagData", props.hotTagData);
-  console.log("props.currentTagData", props.currentTagData);
-});
-
 const activeIndex = ref(-1);
 
 const emits = defineEmits(["clicksNavBarItem"]);
 
 const clicksNavBarItem = (index: number) => {
+  currentTabIndex.value = index;
   if (activeIndex.value == index) {
     return;
   }
@@ -54,12 +51,11 @@ const clicksNavBarItem = (index: number) => {
 
 <style lang="less" scoped>
 .sNavBarContainer {
-  width: 100vmin;
   height: 3.95vmin;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   border-radius: 20px;
 
   .sNavBarItem {
