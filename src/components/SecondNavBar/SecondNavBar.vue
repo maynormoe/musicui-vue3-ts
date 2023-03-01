@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps({
   hotTagData: {
@@ -23,11 +23,14 @@ const props = defineProps({
     required: true,
   },
   currentTagData: {
-    type: Array,
-    required: true,
+    type: Object,
   },
 });
 
+watch(props.hotTagData, (value, oldValue, onCleanup) => {
+  console.log(props.hotTagData);
+  console.log(value);
+});
 const activeIndex = ref(-1);
 
 const emits = defineEmits(["clicksNavBarItem"]);

@@ -23,6 +23,16 @@ export const getSortList = async () => {
   return await instance.get("/playlist/catlist");
 };
 
+export const getRank = async () => {
+  return await instance.get("/toplist");
+};
+export const getRankDetail = async () => {
+  return await instance.get("/toplist/detail");
+};
+
+const getSongListDetail = async (id: any) => {
+  return await instance.get("/playlist/detail", { params: { id } });
+};
 export default {
   getHotSearch,
   getCarousel,
@@ -30,4 +40,6 @@ export default {
   getHighQuality,
   getHotTag,
   getSortList,
+  getRank,
+  getRankDetail,
 };
