@@ -33,7 +33,7 @@ onMounted(() => {
 });
 const clickBarItem = (path: any, index: any, indexData: any) => {
   router.push(path);
-  indexData.activeIndex = index;
+  // indexData.activeIndex = index;
 };
 </script>
 

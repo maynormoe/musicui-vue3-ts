@@ -1,13 +1,13 @@
 <template>
   <div class="sNavBarContainer">
     <div
-      v-for="(item, index) of hotTagData"
+      v-for="(item, index) in hotTagData"
       :key="index"
-      :class="currentTabName === index ? 'active' : ''"
+      :class="currentTagData.name === item.name ? 'active' : ''"
       class="sNavBarItem"
-      @click="clicksNavBarItem(item.area, index)"
+      @click="clicksNavBarItem(Number(index))"
     >
-      <span :class="currentTabName === index ? 'activeFont' : ''">{{
+      <span :class="currentTagData.name === item.name ? 'activeFont' : ''">{{
         item.name
       }}</span>
     </div>
@@ -15,29 +15,35 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref, watch, watchEffect } from "vue";
 
-const props = defineProps({
-  hotTagData: {
-    type: Object,
-    required: true,
-  },
-  currentTagData: {
-    type: Object,
-    default: {},
-  },
-});
-const currentTabName = ref(0);
+type HotTagDataType = { area?: number; name?: string };
+
+const props = withDefaults(
+  defineProps<{
+    hotTagData: HotTagDataType[];
+    currentTagData?: HotTagDataType;
+  }>(),
+  {
+    currentTagData: () => ({}),
+  }
+);
+
 watch(props.hotTagData, (value, oldValue, onCleanup) => {
-  console.log(props.hotTagData);
-  console.log(value);
+  console.log("props.hotTagData", props.hotTagData);
+  console.log("value", value);
 });
+
+watchEffect(() => {
+  console.log("props.hotTagData", props.hotTagData);
+  console.log("props.currentTagData", props.currentTagData);
+});
+
 const activeIndex = ref(-1);
 
 const emits = defineEmits(["clicksNavBarItem"]);
 
-const clicksNavBarItem = (index: number, a: number) => {
-  currentTabName.value = a;
+const clicksNavBarItem = (index: number) => {
   if (activeIndex.value == index) {
     return;
   }
