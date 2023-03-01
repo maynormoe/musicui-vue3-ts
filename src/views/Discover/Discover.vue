@@ -25,7 +25,7 @@ const navBarData = ref([
   },
   {
     name: "歌手",
-    path: "/discover/songer",
+    path: "/discover/singer",
   },
 ]);
 onMounted(() => {

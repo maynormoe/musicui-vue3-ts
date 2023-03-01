@@ -31,9 +31,9 @@ const router = createRouter({
                 import("@/views/Discover/DiscoverChild/Ranking/Ranking.vue"),
             },
             {
-              path: "songer",
+              path: "singer",
               component: () =>
-                import("@/views/Discover/DiscoverChild/Songer/Songer.vue"),
+                import("@/views/Discover/DiscoverChild/Singer/Singer.vue"),
             },
           ],
         },

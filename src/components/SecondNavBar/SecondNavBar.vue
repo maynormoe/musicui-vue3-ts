@@ -1,13 +1,13 @@
 <template>
   <div class="sNavBarContainer">
     <div
-      v-for="(item, index) in hotTagData"
+      v-for="(item, index) of hotTagData"
       :key="index"
-      :class="currentTagData.name === item.name ? 'active' : ''"
+      :class="currentTabName === index ? 'active' : ''"
       class="sNavBarItem"
-      @click="clicksNavBarItem(index)"
+      @click="clicksNavBarItem(item.area, index)"
     >
-      <span :class="currentTagData.name === item.name ? 'activeFont' : ''">{{
+      <span :class="currentTabName === index ? 'activeFont' : ''">{{
         item.name
       }}</span>
     </div>
@@ -24,9 +24,10 @@ const props = defineProps({
   },
   currentTagData: {
     type: Object,
+    default: {},
   },
 });
-
+const currentTabName = ref(0);
 watch(props.hotTagData, (value, oldValue, onCleanup) => {
   console.log(props.hotTagData);
   console.log(value);
@@ -35,7 +36,8 @@ const activeIndex = ref(-1);
 
 const emits = defineEmits(["clicksNavBarItem"]);
 
-const clicksNavBarItem = (index: number) => {
+const clicksNavBarItem = (index: number, a: number) => {
+  currentTabName.value = a;
   if (activeIndex.value == index) {
     return;
   }

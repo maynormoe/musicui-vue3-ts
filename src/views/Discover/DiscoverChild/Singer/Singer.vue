@@ -7,7 +7,7 @@
             <span>语种：</span>
           </div>
           <div class="langSort">
-            <SecondNavBar :hotTagData="langSortData"></SecondNavBar>
+            <SecondNavBar :hot-tag-data="langSortData"></SecondNavBar>
           </div>
         </div>
       </div>
@@ -17,16 +17,15 @@
 
 <script lang="ts" setup>
 import SecondNavBar from "@/components/SecondNavBar/SecondNavBar.vue";
-import { ref } from "vue";
 
-const langSortData = ref([
+const langSortData = [
   { area: -1, name: "全部" },
   { area: 7, name: "华语" },
   { area: 96, name: "欧美" },
   { area: 8, name: "日本" },
   { area: 16, name: "韩国" },
   { area: 0, name: "其它" },
-]);
+];
 </script>
 
 <style lang="less" scoped>
