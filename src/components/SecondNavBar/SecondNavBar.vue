@@ -5,7 +5,7 @@
       :key="index"
       :class="currentTagData.name === item.name ? 'active' : ''"
       class="sNavBarItem"
-      @click="clicksNavBarItem(index)"
+      @click="clicksNavBarItem(Number(index))"
     >
       <span :class="currentTagData.name === item.name ? 'activeFont' : ''">{{
         item.name
@@ -15,22 +15,26 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref, watch,watchEffect } from "vue";
+type HotTagDataType = {area?:number,name?:string}
 
-const props = defineProps({
-  hotTagData: {
-    type: Object,
-    required: true,
-  },
-  currentTagData: {
-    type: Object,
-  },
-});
+const props = withDefaults(defineProps<{
+  hotTagData:HotTagDataType[],
+  currentTagData?:HotTagDataType
+}>(),{
+  currentTagData: () => ({})
+})
 
 watch(props.hotTagData, (value, oldValue, onCleanup) => {
-  console.log(props.hotTagData);
-  console.log(value);
+  console.log('props.hotTagData',props.hotTagData);
+  console.log('value',value);
 });
+
+watchEffect(() => {
+  console.log('props.hotTagData',props.hotTagData);
+  console.log('props.currentTagData',props.currentTagData);
+});
+
 const activeIndex = ref(-1);
 
 const emits = defineEmits(["clicksNavBarItem"]);
