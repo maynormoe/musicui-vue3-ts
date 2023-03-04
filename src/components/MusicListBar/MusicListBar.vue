@@ -27,6 +27,15 @@
               <Comment></Comment>
             </div>
           </div>
+          <div class="page">
+            <el-pagination
+              :total="50"
+              background
+              class="mt-4"
+              layout="prev, pager, next"
+              small
+            />
+          </div>
         </div>
       </el-tab-pane>
       <el-tab-pane label="收藏者" name="third">
@@ -123,5 +132,17 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.page {
+  margin: 1vmin;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7vmin;
+
+  :deep(.el-pagination.is-background .el-pager li:not(.is-disabled).is-active) {
+    background: #ec4141;
+  }
 }
 </style>
