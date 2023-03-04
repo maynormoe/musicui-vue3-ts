@@ -4,6 +4,7 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "@/router/router";
 import SvgIcon from "@/components/SvgIcon/SvgIcon.vue";
+import "undraw-ui/dist/style.css";
 
 import "@icon-park/vue-next/styles/index.less";
 

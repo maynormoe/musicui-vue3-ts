@@ -8,8 +8,10 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Carousel: typeof import('./src/components/Carousel/Carousel.vue')['default']
+    Comment: typeof import('./src/components/Comment/Comment.vue')['default']
+    CommentArea: typeof import('./src/components/Comment/CommentArea.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
-    ElButton: typeof import("element-plus/es")["ElButton"]
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
     ElCarouselItem: typeof import('element-plus/es')['ElCarouselItem']
@@ -21,8 +23,10 @@ declare module '@vue/runtime-core' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElPopover: typeof import('element-plus/es')['ElPopover']
-    ElTabPane: typeof import("element-plus/es")["ElTabPane"]
-    ElTabs: typeof import("element-plus/es")["ElTabs"]
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabs: typeof import('element-plus/es')['ElTabs']
     HeaderBar: typeof import('./src/components/HeaderBar/HeaderBar.vue')['default']
     HighQuality: typeof import('./src/components/highQualityCard/HighQuality.vue')['default']
     ListCard: typeof import('./src/components/ListCard/ListCard.vue')['default']
@@ -30,6 +34,7 @@ declare module '@vue/runtime-core' {
     Login: typeof import('./src/components/Login/Login.vue')['default']
     Menu: typeof import('./src/components/Menu/Menu.vue')['default']
     MusicController: typeof import('./src/components/MusicController/MusicController.vue')['default']
+    MusicListBar: typeof import('./src/components/MusicListBar/MusicListBar.vue')['default']
     NavBar: typeof import('./src/components/NavBar/NavBar.vue')['default']
     RecommendSongList: typeof import('./src/components/RecommendSongList/RecommendSongList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -39,5 +44,9 @@ declare module '@vue/runtime-core' {
     SoftBox: typeof import("./src/components/SoftBox/SoftBox.vue")["default"]
     SortBox: typeof import('./src/components/SortBox/SortBox.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/SvgIcon.vue')['default']
+    User: typeof import('./src/components/User/User.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
   }
 }

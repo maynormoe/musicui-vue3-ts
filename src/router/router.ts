@@ -49,6 +49,12 @@ const router = createRouter({
           path: "recommend",
           component: () => import("@/views/Recommend/Recommend.vue"),
         },
+        {
+          path: "musiclistdetail/:id",
+          name: "musicListDetail",
+          component: () =>
+            import("@/views/MusicListDetail/MusicListDetail.vue"),
+        },
       ],
     },
   ],

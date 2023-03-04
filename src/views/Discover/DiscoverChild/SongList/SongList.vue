@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="musicList">
-        <ListCard></ListCard>
+        <ListCard @clickSongListItem="goMusicListDetail"></ListCard>
       </div>
       <div v-if="songListData" class="page">
         <el-pagination
@@ -42,10 +42,11 @@ import HighQuality from "@/components/highQualityCard/HighQuality.vue";
 import request from "@/network/request";
 
 import api from "@/api/api";
-import { provide, ref } from "vue";
+import { onMounted, provide, ref } from "vue";
 import SecondNavBar from "@/components/SecondNavBar/SecondNavBar.vue";
 import SoftBox from "@/components/SortBox/SortBox.vue";
 import ListCard from "@/components/ListCard/ListCard.vue";
+import router from "@/router/router";
 
 const highQualityData = ref("");
 
@@ -126,6 +127,12 @@ const pageChange = (page: number) => {
   currentPageData.value = page;
   getSongList();
 };
+const goMusicListDetail = (id: number) => {
+  router.push({ name: "musicListDetail", params: { id } });
+};
+onMounted(() => {
+  getSongList();
+});
 </script>
 
 <style lang="less" scoped>

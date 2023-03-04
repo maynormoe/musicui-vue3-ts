@@ -30,9 +30,6 @@ export const getRankDetail = async () => {
   return await instance.get("/toplist/detail");
 };
 
-const getSongListDetail = async (id: any) => {
-  return await instance.get("/playlist/detail", { params: { id } });
-};
 export default {
   getHotSearch,
   getCarousel,

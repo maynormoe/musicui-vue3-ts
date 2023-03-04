@@ -1,10 +1,16 @@
 <template>
-  <div class="songList">
+  <div
+    v-infinite-scroll="load"
+    :infinite-scroll-disabled="disable"
+    :infinite-scroll-distance="100"
+    :infinite-scroll-immediate="false"
+    class="songList"
+  >
     <div
       v-for="(item, index) in PrecommendData"
       :key="index"
       class="songListItem"
-      @click="clickSongListItem"
+      @click="clickSongListItem(item.id)"
     >
       <div class="songCover">
         <img :src="item.coverImgUrl || item.picUrl" alt="" />
@@ -14,14 +20,43 @@
       </div>
     </div>
   </div>
+  <p v-show="isLoad" style="text-align: center">正在努力加载中...</p>
+  <p v-show="isNoMore" style="text-align: center">真的没有东西了...</p>
 </template>
 
 <script lang="ts" setup>
-import { inject } from "vue";
+import { inject, ref, watch } from "vue";
 
-const PrecommendData = inject<string>("PrecommendData");
+const PrecommendData: any | undefined = inject<string>("PrecommendData");
 
-const clickSongListItem = () => {};
+const emits = defineEmits(["bottomLoad", "clickSongListItem"]);
+
+const disable = ref<boolean>(false);
+
+const isLoad = ref<boolean>(false);
+
+const isNoMore = ref(false);
+
+const clickSongListItem = (id: number) => {
+  emits("clickSongListItem", id);
+};
+
+const load = () => {
+  console.log("滑动到底部");
+  emits("bottomLoad");
+};
+watch(PrecommendData, () => {
+  if (isLoad) {
+    if (PrecommendData.length === 0) {
+      disable.value = false;
+      isLoad.value = false;
+      isNoMore.value = true;
+    } else {
+      disable.value = true;
+      isNoMore.value = false;
+    }
+  }
+});
 </script>
 
 <style lang="less" scoped>
