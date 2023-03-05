@@ -29,7 +29,6 @@ export const getRank = async () => {
 export const getRankDetail = async () => {
   return await instance.get("/toplist/detail");
 };
-
 export default {
   getHotSearch,
   getCarousel,

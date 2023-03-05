@@ -77,6 +77,22 @@
 <script lang="ts" setup>
 import { PlayOne, Share, Star } from "@icon-park/vue-next";
 import MusicListBar from "@/components/MusicListBar/MusicListBar.vue";
+import { onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import request from "@/network/request";
+
+const route = useRoute();
+
+const musicListDetail = ref<string[]>([]);
+
+const getMusicListDetail = async () => {
+  const res: any = await request.get("/playlist/detail?id=" + route.params.id);
+  console.log(res.playlist);
+  musicListDetail.value = res.playlist;
+};
+onMounted(() => {
+  getMusicListDetail();
+});
 </script>
 
 <style lang="less" scoped>

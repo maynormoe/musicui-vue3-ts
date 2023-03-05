@@ -48,6 +48,10 @@ import SoftBox from "@/components/SortBox/SortBox.vue";
 import ListCard from "@/components/ListCard/ListCard.vue";
 import router from "@/router/router";
 
+import { useMusicListId } from "@/stores/MusicListId/musiclistid";
+
+const store = useMusicListId();
+
 const highQualityData = ref("");
 
 const currentTagData = ref("");
@@ -129,6 +133,10 @@ const pageChange = (page: number) => {
 };
 const goMusicListDetail = (id: number) => {
   router.push({ name: "musicListDetail", params: { id } });
+  console.log(id);
+  store.$patch({
+    musicListId: id,
+  });
 };
 onMounted(() => {
   getSongList();

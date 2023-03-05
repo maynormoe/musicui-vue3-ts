@@ -22,6 +22,10 @@ const props = defineProps({
 
 const goMusicListDetail = (id: number) => {
   router.push({ name: "musicListDetail", params: { id } });
+  console.log(id);
+  // store.$patch({
+  //   musicListId: id,
+  // });
 };
 </script>
 

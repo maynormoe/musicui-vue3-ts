@@ -59,7 +59,6 @@ import User from "@/components/User/User.vue";
 const activeName = ref("first");
 
 const tableData = [];
-
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event);
 };
