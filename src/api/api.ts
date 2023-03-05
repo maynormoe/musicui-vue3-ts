@@ -1,4 +1,7 @@
 import instance from "@/network/request";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
 
 export const getHotSearch = async () => {
   return await instance.get("/search/hot/detail");
@@ -29,6 +32,7 @@ export const getRank = async () => {
 export const getRankDetail = async () => {
   return await instance.get("/toplist/detail");
 };
+
 export default {
   getHotSearch,
   getCarousel,

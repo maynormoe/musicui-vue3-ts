@@ -1,9 +1,9 @@
 <template>
   <div class="musicListDetailContainer">
-    <div class="musicListDetail">
+    <div v-if="musicListDetailData" class="musicListDetail">
       <div class="listInfo">
         <div class="listCover">
-          <img alt="" src="/src/assets/img/defaultcover.png" />
+          <img :src="musicListDetailData.coverImgUrl" alt="" />
         </div>
         <div class="listInfoRight">
           <div class="InfoTitle">
@@ -11,18 +11,18 @@
               <span>歌单</span>
             </div>
             <div class="titleContent">
-              <span>时间治愈的是 愿意自渡之人</span>
+              <span>{{ musicListDetailData.name }}</span>
             </div>
           </div>
           <div class="creatorInfo">
             <div class="creatorAvatar">
-              <img alt="" src="/src/assets/img/avatar.png" />
+              <img :src="musicListDetailData.creator.avatarUrl" alt="" />
             </div>
             <div class="creatorName">
-              <span>网易云音乐</span>
+              <span>{{ musicListDetailData.creator.nickname }}</span>
             </div>
             <div class="creatorDate">
-              <span>2023年1月4日创建</span>
+              <span>{{ musicListDetailData.createTime }}创建</span>
             </div>
           </div>
           <div class="buttons">
@@ -51,24 +51,32 @@
             <div class="listTagsTitle">
               <span>标签：</span>
             </div>
-            <div class="listTagsIcon">
+            <div
+              v-for="(item, index) in musicListDetailData.tags"
+              :key="index"
+              class="listTagsIcon"
+            >
               <el-button class="tagsIcon" plain size="small" type="primary"
-                >标签
+                >{{ item }}
               </el-button>
             </div>
           </div>
           <div class="countContainer">
             <div class="singCount">
-              <span>歌曲： 20</span>
+              <span>订阅： {{ musicListDetailData.subscribedCount }}</span>
             </div>
             <div class="playCount">
-              <span>播放：20 </span>
+              <span>播放：{{ musicListDetailData.playCount }} </span>
             </div>
           </div>
         </div>
       </div>
       <div class="musicListBarContainer">
-        <MusicListBar></MusicListBar>
+        <MusicListBar
+          :music-list-hot-comment-data="musicListHotCommentData"
+          :musicListAllCommentData="musicListAllCommentData"
+          :musicListDetailData="musicListDetailData"
+        ></MusicListBar>
       </div>
     </div>
   </div>
@@ -83,15 +91,72 @@ import request from "@/network/request";
 
 const route = useRoute();
 
-const musicListDetail = ref<string[]>([]);
+const musicListDetailData = ref<any[] | null | undefined>(null);
 
 const getMusicListDetail = async () => {
-  const res: any = await request.get("/playlist/detail?id=" + route.params.id);
+  const res: any = await request.get("/playlist/detail", {
+    params: {
+      id: route.params.id,
+      limit: 50,
+    },
+  });
   console.log(res.playlist);
-  musicListDetail.value = res.playlist;
+  // 转换时间戳
+  const timestamp = res.playlist.createTime;
+  const date = new Date(timestamp);
+  res.playlist.createTime = date.toLocaleString();
+
+  // 转换时长
+
+  res.playlist.tracks.forEach((item: Array<any>, index: number) => {
+    const durationInMilliseconds = res.playlist.tracks[index].dt;
+    const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
+
+    const hours = Math.floor(durationInSeconds / 3600);
+    const minutes = Math.floor((durationInSeconds % 3600) / 60);
+    const seconds = Math.floor(durationInSeconds % 60);
+    res.playlist.tracks[index].dt = [
+      ("0" + hours).slice(-2),
+      ("0" + minutes).slice(-2),
+      ("0" + seconds).slice(-2),
+    ].join(":");
+  });
+
+  musicListDetailData.value = res.playlist;
+};
+
+const musicListHotCommentData = ref<any[] | null | undefined>(null);
+
+const getMusicListHotComment = async () => {
+  let res: any = await request.get("/comment/hot", {
+    params: {
+      id: route.params.id,
+      type: 2,
+    },
+  });
+  console.log(res.hotComments);
+  musicListHotCommentData.value = res.hotComments;
+  console.log(musicListHotCommentData.value);
+};
+
+const musicListAllCommentData = ref<any[] | undefined | null>(null);
+
+const currentPage = ref<number>(1);
+
+const getMusicListAllComment = async () => {
+  let res: any = await request.get("/comment/playlist", {
+    params: {
+      id: route.params.id,
+      offset: (currentPage.value - 1) * 20,
+    },
+  });
+  console.log(res);
+  musicListAllCommentData.value = res;
 };
 onMounted(() => {
   getMusicListDetail();
+  getMusicListHotComment();
+  getMusicListAllComment();
 });
 </script>
 
@@ -244,6 +309,8 @@ onMounted(() => {
         }
 
         .listTagsIcon {
+          margin: 1vmin;
+
           :deep(.tagsIcon) {
             font-size: 1.85vmin;
           }

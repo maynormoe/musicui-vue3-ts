@@ -1,18 +1,23 @@
 <template>
-  <div class="commentItem">
+  <div
+    v-for="(item, index) in commentData"
+    v-if="commentData"
+    :key="index"
+    class="commentItem"
+  >
     <div class="commentUser">
       <div class="commentAvatar">
-        <img alt="" src="/src/assets/img/avatar.png" />
+        <img :src="item.user.avatarUrl" alt="" />
       </div>
       <div class="commentName">
-        <span>用户名</span>
+        <span>{{ item.user.nickname }}</span>
       </div>
       <div class="commentDate">
-        <span>2023-1-3</span>
+        <span>{{ item.timeStr }}</span>
       </div>
     </div>
     <div class="commentContent">
-      <span>这是一条评论，这是一条评论，这是一条评论，这是一条评论</span>
+      <span>{{ item.content }}</span>
     </div>
     <div class="commentBtn">
       <div class="thumbsup">
@@ -24,7 +29,7 @@
           theme="outline"
         />
         <div class="thumbsUpCount">
-          <span>300</span>
+          <span>{{ item.likedCount }}</span>
         </div>
       </div>
       <div class="commentShare">
@@ -51,12 +56,18 @@
 
 <script lang="ts" setup>
 import { Comments, Share, ThumbsUp } from "@icon-park/vue-next";
+
+const props = defineProps({
+  commentData: {
+    type: Array,
+  },
+});
 </script>
 
 <style lang="less" scoped>
 .commentItem {
+  margin: 2vmin 0;
   width: 150vmin;
-  height: 12.75vmin;
   border: 1px solid #cccccc;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
@@ -65,6 +76,7 @@ import { Comments, Share, ThumbsUp } from "@icon-park/vue-next";
 
   .commentContent {
     margin-left: 5vmin;
+    margin-bottom: 2vmin;
 
     span {
       font-size: 2vmin;

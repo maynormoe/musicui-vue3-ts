@@ -2,34 +2,46 @@
   <div class="musicListBar">
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="歌曲列表" name="first">
-        <div class="songList">
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column label="排名" width="100" />
-            <el-table-column label="音乐标题" prop="date" width="180" />
-            <el-table-column label="歌手" prop="name" width="180" />
-            <el-table-column label="专辑" prop="address" />
-            <el-table-column label="时长" prop="address" />
+        <div v-if="musicListDetailData" class="songList">
+          <el-table
+            :data="musicListDetailData.tracks"
+            :row-key="
+              (row) => {
+                return row.id;
+              }
+            "
+            highlight-current-row
+            lazy
+            style="width: 100%"
+          >
+            <el-table-column label=" " type="index" width="100" />
+            <el-table-column label="音乐标题" prop="name" width="180" />
+            <el-table-column label="歌手" prop="ar[0].name" width="180" />
+            <el-table-column label="专辑" prop="al.name" />
+            <el-table-column label="时长" prop="dt" />
           </el-table>
         </div>
       </el-tab-pane>
       <el-tab-pane label="评论" name="second">
         <div class="commentContainer">
           <CommentArea></CommentArea>
-          <div class="wonderful">
+          <div v-show="musicListHotCommentData" class="wonderful">
             <p>精彩评论</p>
             <div class="commentList">
-              <Comment></Comment>
+              <Comment :comment-data="musicListHotCommentData"></Comment>
             </div>
           </div>
-          <div class="hotComment">
-            <p>热门评论</p>
+          <div v-show="musicListAllCommentData" class="hotComment">
+            <p>全部评论</p>
             <div class="commentList">
-              <Comment></Comment>
+              <Comment
+                :comment-data="musicListAllCommentData.comments"
+              ></Comment>
             </div>
           </div>
-          <div class="page">
+          <div v-show="musicListAllCommentData" class="page">
             <el-pagination
-              :total="50"
+              :total="musicListAllCommentData.total"
               background
               class="mt-4"
               layout="prev, pager, next"
@@ -56,12 +68,24 @@ import CommentArea from "@/components/Comment/CommentArea.vue";
 import Comment from "@/components/Comment/Comment.vue";
 import User from "@/components/User/User.vue";
 
-const activeName = ref("first");
+const activeName = ref<string>("first");
 
-const tableData = [];
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event);
 };
+
+const props = defineProps({
+  musicListDetailData: {
+    type: Array,
+    required: true,
+  },
+  musicListHotCommentData: {
+    type: Array,
+  },
+  musicListAllCommentData: {
+    type: Array,
+  },
+});
 </script>
 <style lang="less" scoped>
 .musicListBar {
