@@ -47,11 +47,13 @@
             class="page"
           >
             <el-pagination
+              v-model:current-page="currentPage"
               :total="musicListAllCommentData.total"
               background
               class="mt-4"
               layout="prev, pager, next"
               small
+              @current-change="pageChange"
             />
           </div>
         </div>
@@ -68,13 +70,21 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { inject, ref } from "vue";
 import type { TabsPaneContext } from "element-plus";
 import CommentArea from "@/components/Comment/CommentArea.vue";
 import Comment from "@/components/Comment/Comment.vue";
 import User from "@/components/User/User.vue";
 
 const activeName = ref<string>("first");
+
+let currentPage = inject<number>("currentPage");
+
+const emits = defineEmits(["pageChange"]);
+
+const pageChange = (page: number) => {
+  emits("pageChange", page);
+};
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event);

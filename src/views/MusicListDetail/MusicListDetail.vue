@@ -76,6 +76,7 @@
           :music-list-hot-comment-data="musicListHotCommentData"
           :musicListAllCommentData="musicListAllCommentData"
           :musicListDetailData="musicListDetailData"
+          @page-change="pageChange"
         ></MusicListBar>
       </div>
     </div>
@@ -85,7 +86,7 @@
 <script lang="ts" setup>
 import { PlayOne, Share, Star } from "@icon-park/vue-next";
 import MusicListBar from "@/components/MusicListBar/MusicListBar.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, provide, ref } from "vue";
 import { useRoute } from "vue-router";
 import request from "@/network/request";
 
@@ -141,16 +142,25 @@ const getMusicListHotComment = async () => {
 
 const musicListAllCommentData = ref<any[] | undefined | null>(null);
 
-const currentPage = ref(1);
+const currentPage = ref<number>(1);
+
+provide<number>("currentPage", currentPage.value);
 
 const getMusicListAllComment = async () => {
   let res: any = await request.get("/comment/playlist", {
     params: {
       id: route.params.id,
+      limit: 50,
+      offset: (currentPage.value - 1) * 50,
     },
   });
   console.log(res);
   musicListAllCommentData.value = res;
+};
+
+const pageChange = (page: number) => {
+  currentPage.value = page;
+  getMusicListAllComment();
 };
 
 onMounted(() => {
@@ -182,7 +192,6 @@ onMounted(() => {
         margin: 0 3vmin 0 6.5vmin;
         width: 28.995vmin;
         height: 28.995vmin;
-        background: gold;
         border-radius: 2.5vmin;
 
         img {
