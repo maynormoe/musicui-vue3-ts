@@ -3,6 +3,11 @@
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="歌曲列表" name="first">
         <div v-if="musicListDetailData" class="songList">
+          <audio
+            v-if="musicUrlData.length !== 0"
+            :src="musicUrlData[0].url"
+            autoplay
+          ></audio>
           <el-table
             :data="musicListDetailData.tracks"
             :row-key="
@@ -13,6 +18,8 @@
             highlight-current-row
             lazy
             style="width: 100%"
+            @cell-click="clickCell"
+            @row-dblclick="clickRow"
           >
             <el-table-column label=" " type="index" width="100" />
             <el-table-column label="音乐标题" prop="name" width="180" />
@@ -81,10 +88,14 @@ import type { TabsPaneContext } from "element-plus";
 import CommentArea from "@/components/Comment/CommentArea.vue";
 import Comment from "@/components/Comment/Comment.vue";
 import User from "@/components/User/User.vue";
+import { useMusicId } from "@/stores/MusicId/musicid";
+import request from "@/network/request";
+
+const store = useMusicId();
 
 const activeName = ref<string>("first");
 
-let currentPage = inject<number>("currentPage");
+let currentPage = inject<any>("currentPage");
 
 const emits = defineEmits(["pageChange", "bottomLoad"]);
 
@@ -99,6 +110,31 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 const load = () => {
   console.log("滑动到底部了");
   emits("bottomLoad");
+};
+
+const musicUrlData = ref<any[]>([]);
+const getMusicUrl = async () => {
+  let res: any = await request.get("/song/url", {
+    params: {
+      id: store.musicId,
+      br: 320000,
+    },
+  });
+  console.log(res);
+  res.data.forEach((item: Array<any>) => {
+    musicUrlData.value.push(item);
+  });
+};
+
+const clickCell = () => {};
+
+const clickRow = (row: any) => {
+  console.log("clickRow", row);
+  console.log(row.id);
+  store.musicId = row.id;
+  console.log(store.musicId);
+  getMusicUrl();
+  console.log(musicUrlData.value);
 };
 
 const props = defineProps({
@@ -120,6 +156,9 @@ const props = defineProps({
   },
   isDisable: {
     type: Boolean,
+  },
+  musicUrlData: {
+    type: Array,
   },
 });
 </script>

@@ -32,7 +32,6 @@ import { CarouselVideo, Fm, Music, ThumbsUp } from "@icon-park/vue-next";
   border-bottom: 1px solid #cccccc;
   background: white;
   position: fixed;
-  z-index: 200;
 
   .el-menu-vertical-demo {
     .el-menu-item {

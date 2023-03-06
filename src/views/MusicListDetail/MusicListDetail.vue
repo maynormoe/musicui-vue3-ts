@@ -79,8 +79,9 @@
           :musicListAllCommentData="musicListAllCommentData"
           :musicListDetailData="musicListDetailData"
           :musicListStarData="musicListStarData"
-          @bottom-load="bottomLoad"
+          :musicUrlData="musicUrlData"
           @page-change="pageChange"
+          @bottom-load="bottomLoad"
         ></MusicListBar>
       </div>
     </div>
@@ -93,6 +94,8 @@ import MusicListBar from "@/components/MusicListBar/MusicListBar.vue";
 import { onMounted, provide, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import request from "@/network/request";
+import { useMusicId } from "@/stores/MusicId/musicid";
+import { storeToRefs } from "pinia";
 
 const route = useRoute();
 
@@ -180,6 +183,22 @@ const getMusicListStar = async () => {
   isMore.value = res.more;
 };
 
+const { musicId } = storeToRefs(useMusicId());
+
+const musicUrlData = ref<any[]>([]);
+const getMusicUrl = async () => {
+  let res: any = await request.get("/song/url", {
+    params: {
+      id: musicId,
+      br: 320000,
+    },
+  });
+  console.log(res);
+  res.data.forEach((item: Array<any>) => {
+    musicUrlData.value.push(item);
+  });
+};
+
 const pageChange = (page: number) => {
   currentPage.value = page;
   getMusicListAllComment();
@@ -205,6 +224,7 @@ onMounted(() => {
   getMusicListHotComment();
   getMusicListAllComment();
   getMusicListStar();
+  getMusicUrl();
 });
 </script>
 

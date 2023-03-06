@@ -30,7 +30,6 @@ import { provide, ref } from "vue";
 import ListTable from "@/components/ListTable/ListTable.vue";
 import api from "@/api/api";
 import ListCard from "@/components/ListCard/ListCard.vue";
-import request from "@/network/request";
 
 const rankDetailData = ref("");
 const officialListData = ref("");
@@ -41,7 +40,7 @@ provide("PrecommendData", globalListData);
 
 api
   .getRankDetail()
-  .then((res) => {
+  .then((res: any) => {
     console.log(res.list);
     rankDetailData.value = res.list;
     globalListData.value = res.list;
@@ -52,19 +51,13 @@ api
 
 api
   .getRank()
-  .then((res) => {
+  .then((res: any) => {
     console.log(res.list.slice(0, 4));
     officialListData.value = res.list.slice(0, 4);
   })
   .catch((error) => {
     console.log(error);
   });
-
-const getSongListDetail = async (id: any) => {
-  let res = await request.get("/playlist/detail", { params: { id } });
-  res = res.playlist;
-  musicListDetail.value.push(res);
-};
 </script>
 
 <style lang="less" scoped>

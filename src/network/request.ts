@@ -6,7 +6,7 @@ const instance = axios.create({
   timeout: 30000,
 });
 
-// 错误处理
+// 拦截器
 
 instance.interceptors.response.use(
   (response) => {
