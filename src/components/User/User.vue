@@ -1,20 +1,35 @@
 <template>
-  <div class="user">
+  <div
+    v-for="(item, index) in musicListStarData"
+    v-if="musicListStarData"
+    :key="index"
+    class="user"
+  >
     <div class="userAvatar">
-      <img alt="" src="/src/assets/img/avatar.png" />
+      <img :src="item.avatarUrl" alt="" />
     </div>
     <div class="userName">
-      <span>用户名</span>
+      <span>{{ item.nickname }}</span>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const props = defineProps({
+  musicListStarData: {
+    type: Array,
+    required: true,
+  },
+  isLoad: {
+    type: Array,
+  },
+});
+</script>
 
 <style lang="less" scoped>
 .user {
   margin: 2vmin;
-  width: 30vmin;
+  width: 40vmin;
   height: 15vmin;
   display: flex;
   align-items: center;

@@ -73,9 +73,13 @@
       </div>
       <div class="musicListBarContainer">
         <MusicListBar
+          :isDisable="isDisable"
+          :isMore="isMore"
           :music-list-hot-comment-data="musicListHotCommentData"
           :musicListAllCommentData="musicListAllCommentData"
           :musicListDetailData="musicListDetailData"
+          :musicListStarData="musicListStarData"
+          @bottom-load="bottomLoad"
           @page-change="pageChange"
         ></MusicListBar>
       </div>
@@ -86,7 +90,7 @@
 <script lang="ts" setup>
 import { PlayOne, Share, Star } from "@icon-park/vue-next";
 import MusicListBar from "@/components/MusicListBar/MusicListBar.vue";
-import { onMounted, provide, ref } from "vue";
+import { onMounted, provide, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import request from "@/network/request";
 
@@ -158,15 +162,49 @@ const getMusicListAllComment = async () => {
   musicListAllCommentData.value = res;
 };
 
+const musicListStarData = ref<any[]>([]);
+
+const isMore = ref<any>(false);
+const getMusicListStar = async () => {
+  let res: any = await request.get("/playlist/subscribers", {
+    params: {
+      id: route.params.id,
+      limit: 30,
+      offset: (currentPage.value - 1) * 30,
+    },
+  });
+  console.log(res);
+  res.subscribers.forEach((item: Array<any>, index: number) => {
+    musicListStarData.value.push(item);
+  });
+  isMore.value = res.more;
+};
+
 const pageChange = (page: number) => {
   currentPage.value = page;
   getMusicListAllComment();
 };
 
+const isDisable = ref<boolean>(false);
+
+const bottomLoad = () => {
+  currentPage.value += 1;
+  getMusicListStar();
+};
+
+watch(musicListStarData, () => {
+  if (isMore) {
+    if (musicListStarData.value.length == 0) {
+      isDisable.value = false;
+    }
+  }
+});
+
 onMounted(() => {
   getMusicListDetail();
   getMusicListHotComment();
   getMusicListAllComment();
+  getMusicListStar();
 });
 </script>
 

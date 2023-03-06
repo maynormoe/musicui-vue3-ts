@@ -62,8 +62,14 @@
         <div class="starTitle">
           <span>收藏者</span>
         </div>
-        <div class="listStar">
-          <User></User>
+        <div
+          v-infinite-scroll="load"
+          :infinite-scroll-disabled="isDisable"
+          :infinite-scroll-distance="300"
+          :infinite-scroll-immediate="false"
+          class="listStar"
+        >
+          <User :is-load="isMore" :musicListStarData="musicListStarData"></User>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -80,7 +86,7 @@ const activeName = ref<string>("first");
 
 let currentPage = inject<number>("currentPage");
 
-const emits = defineEmits(["pageChange"]);
+const emits = defineEmits(["pageChange", "bottomLoad"]);
 
 const pageChange = (page: number) => {
   emits("pageChange", page);
@@ -88,6 +94,11 @@ const pageChange = (page: number) => {
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event);
+};
+
+const load = () => {
+  console.log("滑动到底部了");
+  emits("bottomLoad");
 };
 
 const props = defineProps({
@@ -100,6 +111,15 @@ const props = defineProps({
   },
   musicListAllCommentData: {
     type: Array,
+  },
+  musicListStarData: {
+    type: Array,
+  },
+  isMore: {
+    type: Array,
+  },
+  isDisable: {
+    type: Boolean,
   },
 });
 </script>
@@ -169,8 +189,8 @@ const props = defineProps({
 
 .listStar {
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .page {

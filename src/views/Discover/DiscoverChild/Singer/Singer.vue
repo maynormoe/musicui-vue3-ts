@@ -142,7 +142,7 @@ const initialHandler = (index: number) => {
 };
 
 const getSingerList = async () => {
-  const res = await request.get("/artist/list", {
+  const res: any = await request.get("/artist/list", {
     params: {
       area: area.value,
       initial: initial.value,
