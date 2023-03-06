@@ -31,15 +31,21 @@
               <Comment :comment-data="musicListHotCommentData"></Comment>
             </div>
           </div>
-          <div v-show="musicListAllCommentData" class="hotComment">
+          <div class="hotComment">
             <p>全部评论</p>
-            <div class="commentList">
+            <div
+              v-if="musicListAllCommentData && musicListDetailData.length !== 0"
+              class="commentList"
+            >
               <Comment
                 :comment-data="musicListAllCommentData.comments"
               ></Comment>
             </div>
           </div>
-          <div v-show="musicListAllCommentData" class="page">
+          <div
+            v-if="musicListAllCommentData && musicListDetailData.length !== 0"
+            class="page"
+          >
             <el-pagination
               :total="musicListAllCommentData.total"
               background

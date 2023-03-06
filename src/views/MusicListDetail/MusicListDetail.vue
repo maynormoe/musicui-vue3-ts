@@ -141,18 +141,18 @@ const getMusicListHotComment = async () => {
 
 const musicListAllCommentData = ref<any[] | undefined | null>(null);
 
-const currentPage = ref<number>(1);
+const currentPage = ref(1);
 
 const getMusicListAllComment = async () => {
   let res: any = await request.get("/comment/playlist", {
     params: {
       id: route.params.id,
-      offset: (currentPage.value - 1) * 20,
     },
   });
   console.log(res);
   musicListAllCommentData.value = res;
 };
+
 onMounted(() => {
   getMusicListDetail();
   getMusicListHotComment();

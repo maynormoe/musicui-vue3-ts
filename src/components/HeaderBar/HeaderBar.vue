@@ -40,7 +40,7 @@
     <div class="right">
       <div class="user" @click="showLoginCard">
         <div class="avatar">
-          <img class="avatarImg" src="/src/assets/img/avatar.png" />
+          <img alt="" class="avatarImg" src="/src/assets/img/avatar.png" />
         </div>
         <div class="unlogin">
           <span>点击登录</span>
