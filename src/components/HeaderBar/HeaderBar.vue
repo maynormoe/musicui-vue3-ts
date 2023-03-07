@@ -1,20 +1,39 @@
 <template>
   <div class="headBar">
     <div class="leftLogo">
-      <img src="/src/assets/logo/logo.png" />
+      <img alt="" src="/src/assets/logo/logo.png" />
     </div>
     <div class="center">
       <div class="buttons">
-        <svg-icon
-          class="icon-fanhui"
-          iconName="icon-fanhui"
-          @click="router.go(1)"
-        ></svg-icon>
-        <svg-icon
+        <left
           class="icon-jinru"
-          iconName="icon-jinru"
+          fill="#ffffff"
+          size="28"
+          strokeLinecap="butt"
+          strokeLinejoin="bevel"
+          theme="filled"
           @click="router.go(-1)"
-        ></svg-icon>
+        ></left>
+        <!--        <svg-icon-->
+        <!--          class="icon-fanhui"-->
+        <!--          color="white"-->
+        <!--          iconName="icon-fanhui"-->
+        <!--          @click="router.go(1)"-->
+        <!--        ></svg-icon>-->
+        <right
+          class="icon-fanhui"
+          fill="#ffffff"
+          size="28"
+          strokeLinecap="butt"
+          strokeLinejoin="bevel"
+          theme="filled"
+          @click="router.go(1)"
+        />
+        <!--        <svg-icon-->
+        <!--          class="icon-jinru"-->
+        <!--          iconName="icon-jinru"-->
+        <!--          @click="router.go(-1)"-->
+        <!--        ></svg-icon>-->
       </div>
       <div class="search">
         <!--        <div class="searchIconBox">-->
@@ -62,6 +81,7 @@ import { ref } from "vue";
 import SearchPop from "@/components/SearchPop/SearchPop.vue";
 import Login from "@/components/Login/Login.vue";
 import { Search } from "@element-plus/icons-vue";
+import { Left, Right } from "@icon-park/vue-next";
 
 const input = ref("");
 
@@ -153,6 +173,8 @@ const showLoginCard = () => {
     .buttons {
       font-size: 3.335vmin;
       color: #ebebeb;
+      display: flex;
+      align-items: center;
 
       .icon-fanhui {
         margin-right: 1vmin;

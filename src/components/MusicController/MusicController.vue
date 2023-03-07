@@ -12,8 +12,8 @@
       <div class="buttons">
         <div class="playCycle">
           <play-cycle
-            fill="#000000"
-            size="40"
+            fill="#949494"
+            size="38"
             strokeLinecap="butt"
             strokeLinejoin="bevel"
             theme="filled"
@@ -21,8 +21,8 @@
         </div>
         <div class="previousSong">
           <go-start
-            fill="#000000"
-            size="48"
+            fill="#949494"
+            size="38"
             strokeLinecap="butt"
             strokeLinejoin="bevel"
             theme="filled"
@@ -30,8 +30,8 @@
         </div>
         <div class="playingSetting">
           <play-one
-            fill="#000000"
-            size="56"
+            fill="#949494"
+            size="38"
             strokeLinecap="butt"
             strokeLinejoin="bevel"
             theme="filled"
@@ -39,8 +39,8 @@
         </div>
         <div class="nextSong">
           <go-end
-            fill="#000000"
-            size="48"
+            fill="#949494"
+            size="38"
             strokeLinecap="butt"
             strokeLinejoin="bevel"
             theme="filled"
@@ -48,19 +48,34 @@
         </div>
         <div class="loveSong">
           <like
-            fill="#000000"
-            size="40"
+            fill="#949494"
+            size="32"
             strokeLinecap="butt"
             strokeLinejoin="bevel"
             theme="filled"
           />
+        </div>
+        <div class="progressBar">
+          <div class="progress">
+            <div class="startTime">
+              <span>00:00</span>
+            </div>
+            <el-slider
+              v-model="progressValue"
+              :show-tooltip="false"
+              size="small"
+            />
+            <div class="endTime">
+              <span>00:00</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="right">
       <div class="volumeNotice">
         <volume-notice
-          fill="#000000"
+          fill="#949494"
           size="40"
           strokeLinecap="butt"
           strokeLinejoin="bevel"
@@ -96,6 +111,8 @@ import {
 import { ref } from "vue";
 
 const volumeValue = ref<number>(0);
+
+const progressValue = ref<any>();
 </script>
 
 <style lang="less" scoped>
@@ -108,6 +125,7 @@ const volumeValue = ref<number>(0);
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   .left {
     z-index: 200;
@@ -155,28 +173,43 @@ const volumeValue = ref<number>(0);
       cursor: pointer;
 
       .playCycle {
-        margin: 0 2vmin 1vmin 1vmin;
+        margin: 0 2vmin 2vmin 1vmin;
         cursor: pointer;
       }
 
       .previousSong {
-        margin: 0 2vmin 1vmin 1vmin;
+        margin: 0 2vmin 2vmin 1vmin;
         cursor: pointer;
       }
 
       .playingSetting {
-        margin: 0 2vmin 1vmin 1vmin;
+        margin: 0 2vmin 2vmin 1vmin;
         cursor: pointer;
       }
 
       .nextSong {
-        margin: 0 2vmin 1vmin 1vmin;
+        margin: 0 2vmin 2vmin 1vmin;
         cursor: pointer;
       }
 
       .loveSong {
-        margin: 0 2vmin 1vmin 1vmin;
+        margin: 0 2vmin 2vmin 1vmin;
         cursor: pointer;
+      }
+
+      .progressBar {
+        width: 65.5vmin;
+        position: absolute;
+        bottom: 0;
+        left: 65.55vmin;
+        display: inline-block;
+        margin-bottom: 1.5vmin;
+
+        .progress {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
     }
   }
@@ -194,10 +227,21 @@ const volumeValue = ref<number>(0);
       margin-right: 1.5vmin;
       width: 12vmin;
       cursor: pointer;
+
+      :deep(.el-slider) {
+        .el-slider__bar {
+          background: #ec4141;
+        }
+
+        .el-slider__button {
+          border: 2px solid #ec4141;
+        }
+      }
     }
 
     .playingSongList {
       margin-right: 5vmin;
+      cursor: pointer;
     }
   }
 }
