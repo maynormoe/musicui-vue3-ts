@@ -1,5 +1,10 @@
 <template>
-  <div class="musicController">
+  <div v-if="musicUrlData" class="musicController">
+    <audio
+      v-if="musicUrlData.length !== 0"
+      :src="musicUrlData[0].url"
+      autoplay
+    ></audio>
     <div class="left">
       <div class="playingMusicCover">
         <img alt="" src="/src/assets/img/avatar.png" />
@@ -108,11 +113,36 @@ import {
   PlayOne,
   VolumeNotice,
 } from "@icon-park/vue-next";
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import request from "@/network/request";
+
+import { useMusicId } from "@/stores/MusicId/musicid";
+import { storeToRefs } from "pinia";
+
+const store = useMusicId();
+const { musicId }: any = storeToRefs(store);
 
 const volumeValue = ref<number>(0);
 
 const progressValue = ref<any>();
+
+const musicUrlData = ref<any[]>([]);
+const getMusicUrl = async () => {
+  let res: any = await request.get("/song/url", {
+    params: {
+      id: musicId.value,
+      br: 320000,
+    },
+  });
+  console.log(res);
+  res.data.forEach((item: Array<any>) => {
+    musicUrlData.value.push(item);
+  });
+};
+
+watch(musicId, () => {
+  getMusicUrl();
+});
 </script>
 
 <style lang="less" scoped>

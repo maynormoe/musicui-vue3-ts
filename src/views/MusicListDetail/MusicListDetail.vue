@@ -76,10 +76,12 @@
           :isDisable="isDisable"
           :isMore="isMore"
           :music-list-hot-comment-data="musicListHotCommentData"
+          :music-url-data="musicUrlData"
           :musicListAllCommentData="musicListAllCommentData"
           :musicListDetailData="musicListDetailData"
           :musicListStarData="musicListStarData"
           :musicUrlData="musicUrlData"
+          @clickRow="clickRow"
           @page-change="pageChange"
           @bottom-load="bottomLoad"
         ></MusicListBar>
@@ -94,12 +96,23 @@ import MusicListBar from "@/components/MusicListBar/MusicListBar.vue";
 import { onMounted, provide, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import request from "@/network/request";
+import { useMusicListId } from "@/stores/MusicListId/musiclistid";
+import { useMusicList } from "@/stores/MusicList/musiclist";
 import { useMusicId } from "@/stores/MusicId/musicid";
-import { storeToRefs } from "pinia";
 
 const route = useRoute();
 
+const { musicId } = useMusicId();
+
+const store = useMusicListId();
+
+let { musicList }: any = useMusicList();
+
 const musicListDetailData = ref<any[] | null | undefined>(null);
+
+const musicListDetailId = ref<any>(0);
+
+const musicListTracks = ref<any[]>([]);
 
 const getMusicListDetail = async () => {
   const res: any = await request.get("/playlist/detail", {
@@ -108,7 +121,7 @@ const getMusicListDetail = async () => {
       limit: 50,
     },
   });
-  console.log(res.playlist);
+  console.log(res, res.playlist);
   // 转换时间戳
   const timestamp = res.playlist.createTime;
   const date = new Date(timestamp);
@@ -131,6 +144,9 @@ const getMusicListDetail = async () => {
   });
 
   musicListDetailData.value = res.playlist;
+  musicListDetailId.value = res.playlist.id;
+  store.musicListId = res.playlist.id;
+  musicListTracks.value = res.playlist.tracks;
 };
 
 const musicListHotCommentData = ref<any[] | null | undefined>(null);
@@ -183,8 +199,6 @@ const getMusicListStar = async () => {
   isMore.value = res.more;
 };
 
-const { musicId } = storeToRefs(useMusicId());
-
 const musicUrlData = ref<any[]>([]);
 const getMusicUrl = async () => {
   let res: any = await request.get("/song/url", {
@@ -209,6 +223,13 @@ const isDisable = ref<boolean>(false);
 const bottomLoad = () => {
   currentPage.value += 1;
   getMusicListStar();
+};
+
+const clickRow = () => {
+  if (musicListDetailId.value !== store.musicListId) {
+    store.musicListId = musicListDetailId;
+    musicList = musicListTracks.value;
+  }
 };
 
 watch(musicListStarData, () => {

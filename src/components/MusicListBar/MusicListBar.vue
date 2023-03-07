@@ -3,11 +3,11 @@
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="歌曲列表" name="first">
         <div v-if="musicListDetailData" class="songList">
-          <audio
-            v-if="musicUrlData.length !== 0"
-            :src="musicUrlData[0].url"
-            autoplay
-          ></audio>
+          <!--                    <audio-->
+          <!--                      v-if="musicUrlData.length !== 0"-->
+          <!--                      :src="musicUrlData[0].url"-->
+          <!--                      autoplay-->
+          <!--                    ></audio>-->
           <el-table
             :data="musicListDetailData.tracks"
             :row-key="
@@ -97,7 +97,7 @@ const activeName = ref<string>("first");
 
 let currentPage = inject<any>("currentPage");
 
-const emits = defineEmits(["pageChange", "bottomLoad"]);
+const emits = defineEmits(["pageChange", "bottomLoad", "clickRow"]);
 
 const pageChange = (page: number) => {
   emits("pageChange", page);
@@ -135,6 +135,7 @@ const clickRow = (row: any) => {
   console.log(store.musicId);
   getMusicUrl();
   console.log(musicUrlData.value);
+  emits("clickRow", row);
 };
 
 const props = defineProps({
