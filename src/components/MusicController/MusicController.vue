@@ -2,8 +2,13 @@
   <div v-if="musicUrlData" class="musicController">
     <audio
       v-if="musicUrlData.length !== 0"
+      ref="audio"
       :src="musicUrlData[0].url"
       autoplay
+      @ended="changeMusic"
+      @pause="changeState(false)"
+      @play="changeState(true)"
+      @timeupdate="timeUpdate"
     ></audio>
     <div class="left">
       <div class="playingMusicCover">
@@ -34,10 +39,22 @@
             theme="filled"
           />
         </div>
-        <div class="playingSetting">
+        <div
+          class="playingSetting"
+          @click="musicList.value !== 0 ? changePlayState() : ''"
+        >
           <play-one
+            v-if="!isPlay"
             fill="#949494"
             size="38"
+            strokeLinecap="butt"
+            strokeLinejoin="bevel"
+            theme="filled"
+          />
+          <pause
+            v-else
+            fill="#949494"
+            size="40"
             strokeLinecap="butt"
             strokeLinejoin="bevel"
             theme="filled"
@@ -63,16 +80,16 @@
         </div>
         <div class="progressBar">
           <div class="progress">
-            <div class="startTime">
-              <span>00:00</span>
+            <div class="currentTime">
+              <span>{{ currentTime }}</span>
             </div>
             <el-slider
-              v-model="progressValue"
+              v-model="currentProgress"
               :show-tooltip="false"
               size="small"
             />
-            <div class="endTime">
-              <span>00:00</span>
+            <div class="totalTime">
+              <span>{{ totalTime }}</span>
             </div>
           </div>
         </div>
@@ -89,7 +106,7 @@
         />
       </div>
       <div class="sliderBlock">
-        <el-slider v-model="volumeValue" :show-tooltip="false" />
+        <el-slider v-model="currentVolume" :show-tooltip="false" />
       </div>
       <div class="playingSongList">
         <list-two
@@ -110,6 +127,7 @@ import {
   GoStart,
   Like,
   ListTwo,
+  Pause,
   PlayCycle,
   PlayOne,
   VolumeNotice,
@@ -121,13 +139,29 @@ import { useMusicId } from "@/stores/MusicId/musicid";
 import { storeToRefs } from "pinia";
 import { useMusicList } from "@/stores/MusicList/musiclist";
 
+import { usePlayState } from "@/stores/PlayState/Playstate";
+
+const { isPlay } = storeToRefs(usePlayState());
+
 const { musicId }: any = storeToRefs(useMusicId());
+
+let audio = ref<any>(null);
 
 const store: any = useMusicList();
 
-const volumeValue = ref<number>(0);
+// 顺序播放 order
+// 随机播放 random
+const playType = ref<string>("order");
 
-const progressValue = ref<any>();
+const currentVolume = ref<number>(30);
+
+const currentMusicIndex = ref<number>(0);
+
+const currentTime = ref<string>("00:00");
+
+const currentProgress = ref<number>(0);
+
+const totalTime = ref<string>("00:00");
 
 const musicUrlData = ref<any[]>([]);
 const getMusicUrl = async () => {
@@ -145,6 +179,32 @@ const getMusicUrl = async () => {
 
 const musicList = ref<any[]>([]);
 
+// 改变音乐状态
+const changeState = (PlayState: boolean) => {
+  isPlay.value = PlayState;
+};
+
+const changePlayState = () => {
+  !isPlay.value ? playMusic() : pauseMusic();
+};
+
+const playMusic = () => {
+  audio.value.play();
+};
+const pauseMusic = () => {
+  audio.value.pause();
+};
+const getMusicDetailFromMusicList = () => {
+  let index = store.musicList.findIndex(
+    (item: any) => item.id == musicId.value
+  );
+  console.log(musicId);
+  console.log(store.musicList);
+  console.log(index);
+  if (index !== -1) {
+  }
+};
+
 watch(
   () => store.musicList,
   () => {
@@ -156,6 +216,7 @@ watch(
 );
 
 watch(musicId, () => {
+  getMusicDetailFromMusicList();
   getMusicUrl();
 });
 </script>
