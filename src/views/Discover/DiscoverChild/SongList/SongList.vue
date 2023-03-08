@@ -56,19 +56,19 @@ const highQualityData = ref("");
 
 const currentTagData = ref("");
 
-const hotTagData = ref("");
+const hotTagData = ref<any[]>([]);
 
-const sortListData = ref("");
+const sortListData = ref<any[]>([]);
 
-const songListData: any = ref("");
+const songListData = ref<any[]>([]);
 
-const currentPageData = ref(1);
+const currentPageData = ref<number>(1);
 
 provide("PrecommendData", songListData);
 
 api
   .getHighQuality()
-  .then((res) => {
+  .then((res: any) => {
     console.log(res.playlists);
     highQualityData.value = res.playlists;
   })
@@ -78,7 +78,7 @@ api
 
 api
   .getHotTag()
-  .then((res) => {
+  .then((res: any) => {
     console.log(res.tags);
     currentTagData.value = res.tags[0];
     hotTagData.value = res.tags;
@@ -89,7 +89,7 @@ api
 
 api
   .getSortList()
-  .then((res) => {
+  .then((res: any) => {
     console.log(res.sub);
     sortListData.value = res.sub;
   })
@@ -106,7 +106,7 @@ const getSongList = () => {
         limit: 40,
       },
     })
-    .then((res) => {
+    .then((res: any) => {
       console.log(res.playlists);
       songListData.value = res.playlists;
     })
@@ -121,8 +121,7 @@ const clickSortItem = (item: any) => {
 };
 
 const clicksNavBarItem = (index: number) => {
-  const selectedTag = hotTagData.value[index];
-  currentTagData.value = selectedTag;
+  currentTagData.value = hotTagData.value[index];
   getSongList();
 };
 

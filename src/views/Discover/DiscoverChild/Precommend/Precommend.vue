@@ -23,7 +23,7 @@ const PrecommendData = ref("");
 
 api
   .getPrecommend()
-  .then((res) => {
+  .then((res: any) => {
     console.log(res.result);
     PrecommendData.value = res.result;
   })

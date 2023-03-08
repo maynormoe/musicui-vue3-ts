@@ -1,7 +1,7 @@
 <template>
   <el-carousel :interval="4000" height="32.755vmin" type="card">
     <el-carousel-item v-for="(item, index) in carouselList" :key="index">
-      <img :src="item.imageUrl" class="carouselImg" />
+      <img :src="item.imageUrl" alt="" class="carouselImg" />
     </el-carousel-item>
   </el-carousel>
 </template>
@@ -12,7 +12,7 @@ import { ref } from "vue";
 
 const carouselList = ref("");
 
-api.getCarousel().then((res) => {
+api.getCarousel().then((res: any) => {
   console.log(res.banners);
   carouselList.value = res.banners;
 });

@@ -7,10 +7,11 @@
     ></audio>
     <div class="left">
       <div class="playingMusicCover">
-        <img alt="" src="/src/assets/img/avatar.png" />
+        <img v-if="musicList.length !== 0" :src="musicList.al.picUrl" alt="" />
+        <img v-else alt="" src="/src/assets/img/avatar.png" />
       </div>
-      <div class="playingMusicName">
-        <span>Gold Steps</span>
+      <div v-if="musicList.length !== 0 && musicList" class="playingMusicName">
+        <span>{{ musicList.al.name }}</span>
       </div>
     </div>
     <div class="center">
@@ -118,9 +119,11 @@ import request from "@/network/request";
 
 import { useMusicId } from "@/stores/MusicId/musicid";
 import { storeToRefs } from "pinia";
+import { useMusicList } from "@/stores/MusicList/musiclist";
 
-const store = useMusicId();
-const { musicId }: any = storeToRefs(store);
+const { musicId }: any = storeToRefs(useMusicId());
+
+const store: any = useMusicList();
 
 const volumeValue = ref<number>(0);
 
@@ -139,6 +142,18 @@ const getMusicUrl = async () => {
     musicUrlData.value.push(item);
   });
 };
+
+const musicList = ref<any[]>([]);
+
+watch(
+  () => store.musicList,
+  () => {
+    console.log(store.musicList);
+    store.musicList.forEach((item: Array<any>, index: number) => {
+      musicList.value = item;
+    });
+  }
+);
 
 watch(musicId, () => {
   getMusicUrl();

@@ -99,6 +99,7 @@ import request from "@/network/request";
 import { useMusicListId } from "@/stores/MusicListId/musiclistid";
 import { useMusicList } from "@/stores/MusicList/musiclist";
 import { useMusicId } from "@/stores/MusicId/musicid";
+import { storeToRefs } from "pinia";
 
 const route = useRoute();
 
@@ -106,7 +107,7 @@ const { musicId } = useMusicId();
 
 const store = useMusicListId();
 
-let { musicList }: any = useMusicList();
+let { musicList }: any = storeToRefs(useMusicList());
 
 const musicListDetailData = ref<any[] | null | undefined>(null);
 
@@ -121,7 +122,7 @@ const getMusicListDetail = async () => {
       limit: 50,
     },
   });
-  console.log(res, res.playlist);
+  console.log(res.playlist);
   // 转换时间戳
   const timestamp = res.playlist.createTime;
   const date = new Date(timestamp);
@@ -148,7 +149,6 @@ const getMusicListDetail = async () => {
   store.musicListId = res.playlist.id;
   musicListTracks.value = res.playlist.tracks;
 };
-
 const musicListHotCommentData = ref<any[] | null | undefined>(null);
 
 const getMusicListHotComment = async () => {
@@ -226,10 +226,12 @@ const bottomLoad = () => {
 };
 
 const clickRow = () => {
-  if (musicListDetailId.value !== store.musicListId) {
-    store.musicListId = musicListDetailId;
-    musicList = musicListTracks.value;
-  }
+  // if (musicListDetailId.value !== store.musicListId) {
+  //   store.musicListId = musicListDetailId.value;
+  //   musicList.value = musicListTracks.value;
+  // }
+  store.musicListId = musicListDetailId.value;
+  musicList.value = musicListTracks.value;
 };
 
 watch(musicListStarData, () => {
