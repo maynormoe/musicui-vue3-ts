@@ -143,6 +143,7 @@ import { usePlayState } from "@/stores/PlayState/Playstate";
 
 const { isPlay } = storeToRefs(usePlayState());
 const { currentMusicIndex } = storeToRefs(usePlayState());
+const { currentTime }: any = storeToRefs(usePlayState());
 
 const { musicId }: any = storeToRefs(useMusicId());
 
@@ -155,8 +156,6 @@ const store: any = useMusicList();
 const playType = ref<string>("order");
 
 const currentVolume = ref<number>(30);
-
-const currentTime = ref<string>("00:00");
 
 const currentProgress = ref<number>(0);
 
@@ -205,6 +204,19 @@ const getMusicDetailFromMusicList = () => {
     totalTime.value = store.musicList[index].dt;
     console.log(musicDetail.value);
   }
+};
+
+const timeUpdate = () => {
+  let time = audio.value.currentTime;
+  let minutes = Math.floor(time / 60); // 获取分钟数
+  let seconds = Math.floor(time % 60); // 获取秒数
+  // 将分钟数和秒数转换为 mm:ss 格式
+  currentTime.value =
+    (minutes < 10 ? "0" : "") +
+    minutes +
+    ":" +
+    (seconds < 10 ? "0" : "") +
+    seconds;
 };
 
 watch(
@@ -352,5 +364,13 @@ watch(musicId, () => {
       cursor: pointer;
     }
   }
+}
+
+.currentTime {
+  margin-right: 2vmin;
+}
+
+.totalTime {
+  margin-left: 2vmin;
 }
 </style>

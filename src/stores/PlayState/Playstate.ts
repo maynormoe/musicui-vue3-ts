@@ -5,6 +5,7 @@ export const usePlayState = defineStore("playState", {
     return {
       isPlay: false,
       currentMusicIndex: -1,
+      currentTime: "",
     };
   },
   getters: {},
