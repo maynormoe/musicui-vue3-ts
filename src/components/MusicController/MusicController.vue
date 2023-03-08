@@ -3,7 +3,7 @@
     <audio
       v-if="musicUrlData.length !== 0"
       ref="audio"
-      :src="musicUrlData[0].url"
+      :src="musicUrlData.url"
       autoplay
       @ended="changeMusic"
       @pause="changeState(false)"
@@ -12,11 +12,11 @@
     ></audio>
     <div class="left">
       <div class="playingMusicCover">
-        <img v-if="musicList.length !== 0" :src="musicList.al.picUrl" alt="" />
+        <img v-if="musicDetail" :src="musicDetail.al.picUrl" alt="" />
         <img v-else alt="" src="/src/assets/img/avatar.png" />
       </div>
-      <div v-if="musicList.length !== 0 && musicList" class="playingMusicName">
-        <span>{{ musicList.al.name }}</span>
+      <div v-if="musicDetail" class="playingMusicName">
+        <span>{{ musicDetail.name }}</span>
       </div>
     </div>
     <div class="center">
@@ -142,6 +142,7 @@ import { useMusicList } from "@/stores/MusicList/musiclist";
 import { usePlayState } from "@/stores/PlayState/Playstate";
 
 const { isPlay } = storeToRefs(usePlayState());
+const { currentMusicIndex } = storeToRefs(usePlayState());
 
 const { musicId }: any = storeToRefs(useMusicId());
 
@@ -155,8 +156,6 @@ const playType = ref<string>("order");
 
 const currentVolume = ref<number>(30);
 
-const currentMusicIndex = ref<number>(0);
-
 const currentTime = ref<string>("00:00");
 
 const currentProgress = ref<number>(0);
@@ -164,6 +163,8 @@ const currentProgress = ref<number>(0);
 const totalTime = ref<string>("00:00");
 
 const musicUrlData = ref<any[]>([]);
+
+const musicDetail = ref<any>();
 const getMusicUrl = async () => {
   let res: any = await request.get("/song/url", {
     params: {
@@ -173,7 +174,7 @@ const getMusicUrl = async () => {
   });
   console.log(res);
   res.data.forEach((item: Array<any>) => {
-    musicUrlData.value.push(item);
+    musicUrlData.value = item;
   });
 };
 
@@ -198,10 +199,11 @@ const getMusicDetailFromMusicList = () => {
   let index = store.musicList.findIndex(
     (item: any) => item.id == musicId.value
   );
-  console.log(musicId);
-  console.log(store.musicList);
-  console.log(index);
   if (index !== -1) {
+    currentMusicIndex.value = index;
+    musicDetail.value = store.musicList[index];
+    totalTime.value = store.musicList[index].dt;
+    console.log(musicDetail.value);
   }
 };
 
