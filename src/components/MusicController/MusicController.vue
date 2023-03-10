@@ -54,6 +54,7 @@
             strokeLinecap="butt"
             strokeLinejoin="bevel"
             theme="filled"
+            @click="musicList.value !== 0 ? changeMusic('pre') : ''"
           />
         </div>
         <div
@@ -84,6 +85,7 @@
             strokeLinecap="butt"
             strokeLinejoin="bevel"
             theme="filled"
+            @click="musicList.value !== 0 ? changeMusic('next') : ''"
           />
         </div>
         <div class="loveSong">
@@ -161,16 +163,14 @@
             :with-header="false"
             z-index="1000000000000000000000000000000000000"
           >
-            <span v-if="store.musicList.length > 1"
-              >共{{ store.musicList.length }}首</span
-            >
-            <span v-if="store.musicList.length === 1">共0首</span>
+            <span>共{{ store.musicList.length }}首</span>
             <el-table
               :data="store.musicList"
               highlight-current-row
               lazy
               stripe
               style="width: 100%"
+              @row-dblclick="clickRow"
             >
               <el-table-column label="歌名" prop="al.name" width="180" />
               <el-table-column label="作者" prop="ar[0].name" width="180" />
@@ -265,29 +265,43 @@ const changePlayMode = () => {
       playType.value = "loop";
       break;
   }
+  console.log(playType.value);
 };
-
-const changeMusic = (type: any, id: number) => {
+const getMusicDetailFromMusicList = () => {
+  let index = store.musicList.findIndex(
+    (item: any) => item.id == musicId.value
+  );
+  if (index !== -1) {
+    currentMusicIndex.value = index;
+    musicDetail.value = store.musicList[index];
+    totalTime.value = store.musicList[index].dt;
+    console.log(musicDetail.value);
+  }
+};
+const changeMusic = (type: string, id?: number) => {
   if (type === "click") {
-    store.musicId = id;
+    musicId.value = id;
   } else if (type === "pre") {
     let currentMusicIndexPre = currentMusicIndex.value;
     let preIndex: number;
     if (playType.value === "order") {
       preIndex =
-        currentMusicIndexPre - 1 < 0
+        Number(currentMusicIndexPre) - 1 < 0
           ? store.musicList.length - 1
-          : currentMusicIndexPre - 1;
+          : Number(currentMusicIndexPre) - 1;
+      musicId.value = store.musicList[preIndex].id;
     } else if (playType.value === "random") {
       if (store.musicList.length === 1) {
         preIndex = currentMusicIndexPre;
+        musicId.value = store.musicList[preIndex].id;
       } else {
         preIndex = currentMusicIndexPre;
-        while (preIndex === currentMusicIndex.value) {
-          preIndex = Math.floor(Math.random() * currentMusicIndex.value);
+        while (preIndex === currentMusicIndexPre) {
+          preIndex = Math.floor(Math.random() * store.musicList.length);
+          console.log(preIndex);
+          musicId.value = store.musicList[preIndex].id;
         }
       }
-      musicId.value = store.musicList[preIndex].id;
     }
   } else if (type === "next") {
     let currentMusicIndexNext = currentMusicIndex.value;
@@ -311,6 +325,11 @@ const changeMusic = (type: any, id: number) => {
   }
 };
 
+const clickRow = (row: any) => {
+  console.log(row.id);
+  changeMusic("click", row.id);
+};
+
 // 改变音乐状态
 const changeState = (PlayState: boolean) => {
   isPlay.value = PlayState;
@@ -325,17 +344,6 @@ const playMusic = () => {
 };
 const pauseMusic = () => {
   audio.value.pause();
-};
-const getMusicDetailFromMusicList = () => {
-  let index = store.musicList.findIndex(
-    (item: any) => item.id == musicId.value
-  );
-  if (index !== -1) {
-    currentMusicIndex.value = index;
-    musicDetail.value = store.musicList[index];
-    totalTime.value = store.musicList[index].dt;
-    console.log(musicDetail.value);
-  }
 };
 
 const timeUpdate = () => {
