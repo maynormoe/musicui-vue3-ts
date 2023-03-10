@@ -311,6 +311,7 @@ const changeMusic = (type: string, id?: number) => {
         currentMusicIndexNext === store.musicList.length
           ? 0
           : currentMusicIndexNext + 1;
+      musicId.value = store.musicList[nextIndex].id;
     } else if (playType.value === "random") {
       if (store.musicList.length === 1) {
         nextIndex = currentMusicIndexNext;
@@ -319,8 +320,8 @@ const changeMusic = (type: string, id?: number) => {
         while (nextIndex === currentMusicIndexNext) {
           nextIndex = Math.floor(Math.random() * store.musicList.length);
         }
+        musicId.value = store.musicList[nextIndex].id;
       }
-      store.musicId = store.musicList[nextIndex].id;
     }
   }
 };
