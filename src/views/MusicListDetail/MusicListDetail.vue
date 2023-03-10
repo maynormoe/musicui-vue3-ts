@@ -27,7 +27,7 @@
           </div>
           <div class="buttons">
             <div class="buttonsItem">
-              <el-button round size="large" type="danger">
+              <el-button round size="large" type="danger" @click="playAll">
                 <span>
                   <play-one
                     fill="#ffffff"
@@ -103,7 +103,7 @@ import { storeToRefs } from "pinia";
 
 const route = useRoute();
 
-const { musicId } = useMusicId();
+const { musicId } = storeToRefs(useMusicId());
 
 const store = useMusicListId();
 
@@ -114,6 +114,8 @@ const musicListDetailData = ref<any[] | null | undefined>(null);
 const musicListDetailId = ref<any>(0);
 
 const musicListTracks = ref<any[]>([]);
+
+const { musicListId } = storeToRefs(useMusicListId());
 
 const getMusicListDetail = async () => {
   const res: any = await request.get("/playlist/detail", {
@@ -148,6 +150,7 @@ const getMusicListDetail = async () => {
   musicListDetailId.value = res.playlist.id;
   store.musicListId = res.playlist.id;
   musicListTracks.value = res.playlist.tracks;
+  console.log(musicListTracks.value);
 };
 const musicListHotCommentData = ref<any[] | null | undefined>(null);
 
@@ -203,7 +206,7 @@ const musicUrlData = ref<any[]>([]);
 const getMusicUrl = async () => {
   let res: any = await request.get("/song/url", {
     params: {
-      id: musicId,
+      id: musicId.value,
       br: 320000,
     },
   });
@@ -232,6 +235,12 @@ const clickRow = () => {
   // }
   store.musicListId = musicListDetailId.value;
   musicList.value = musicListTracks.value;
+};
+
+const playAll = () => {
+  musicId.value = musicListTracks.value[0].id;
+  musicList.value = musicListTracks.value;
+  musicListId.value = musicListDetailId.value;
 };
 
 watch(musicListStarData, () => {

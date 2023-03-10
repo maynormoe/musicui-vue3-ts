@@ -3,11 +3,6 @@
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="歌曲列表" name="first">
         <div v-if="musicListDetailData" class="songList">
-          <!--                    <audio-->
-          <!--                      v-if="musicUrlData.length !== 0"-->
-          <!--                      :src="musicUrlData[0].url"-->
-          <!--                      autoplay-->
-          <!--                    ></audio>-->
           <el-table
             :data="musicListDetailData.tracks"
             :row-key="

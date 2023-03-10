@@ -37,7 +37,10 @@
         </div>
       </div>
       <div class="listCardContainer">
-        <ListCard @bottom-load="bottomLoad"></ListCard>
+        <ListCard
+          @clickSongListItem="goSingerDetailPage"
+          @bottom-load="bottomLoad"
+        ></ListCard>
       </div>
     </div>
   </div>
@@ -48,6 +51,7 @@ import SecondNavBar from "@/components/SecondNavBar/SecondNavBar.vue";
 import { onMounted, provide, ref } from "vue";
 import ListCard from "@/components/ListCard/ListCard.vue";
 import request from "@/network/request";
+import router from "@/router/router";
 
 const isMore = ref<boolean>(false);
 
@@ -157,23 +161,11 @@ const getSingerList = async () => {
   console.log(res.more);
   isMore.value = res.more;
 };
-// request
-//   .get("/artist/list", {
-//     params: {
-//       area: area.value,
-//       initial: initial.value,
-//       type: type.value,
-//       offset: (currentPage.value - 1) * 30,
-//     },
-//   })
-//   .then((res) => {
-//     console.log(res.artists);
-//     singerList.value = res.artists;
-//     isMore.value = res.more;
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
+
+const goSingerDetailPage = (id: number) => {
+  router.push({ name: "singerDetail", params: { id } });
+};
+
 onMounted(() => {
   getSingerList();
 });
@@ -205,6 +197,8 @@ const bottomLoad = () => {
 
         .title {
           width: 7.855vmin;
+          font-size: 2.55vmin;
+          color: #8c8c8c;
 
           span {
             font-size: 2.55vmin;
