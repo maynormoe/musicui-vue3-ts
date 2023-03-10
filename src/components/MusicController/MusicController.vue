@@ -5,7 +5,7 @@
       ref="audio"
       :src="musicUrlData.url"
       autoplay
-      @ended="changeMusic"
+      @ended="changeMusic('next')"
       @pause="changeState(false)"
       @play="changeState(true)"
       @timeupdate="timeUpdate"
@@ -21,8 +21,25 @@
     </div>
     <div class="center">
       <div class="buttons">
-        <div class="playCycle">
+        <div class="playMode" @click="changePlayMode">
           <play-cycle
+            v-if="playType === 'loop'"
+            fill="#949494"
+            size="38"
+            strokeLinecap="butt"
+            strokeLinejoin="bevel"
+            theme="filled"
+          />
+          <shuffle-one
+            v-if="playType === 'order'"
+            fill="#949494"
+            size="38"
+            strokeLinecap="butt"
+            strokeLinejoin="bevel"
+            theme="filled"
+          />
+          <sort-two
+            v-if="playType === 'random'"
             fill="#949494"
             size="38"
             strokeLinecap="butt"
@@ -87,6 +104,7 @@
               v-model="currentProgress"
               :show-tooltip="false"
               size="small"
+              @change="changeProgress"
             />
             <div class="totalTime">
               <span>{{ totalTime }}</span>
@@ -96,8 +114,25 @@
       </div>
     </div>
     <div class="right">
-      <div class="volumeNotice">
+      <div class="volumeNotice" @click="changeVolumeMute">
         <volume-notice
+          v-if="currentVolume >= 50 && !isMute"
+          fill="#949494"
+          size="40"
+          strokeLinecap="butt"
+          strokeLinejoin="bevel"
+          theme="filled"
+        />
+        <volume-small
+          v-else-if="currentVolume < 50 && !isMute"
+          fill="#949494"
+          size="40"
+          strokeLinecap="butt"
+          strokeLinejoin="bevel"
+          theme="filled"
+        />
+        <volume-mute
+          v-if="isMute"
           fill="#949494"
           size="40"
           strokeLinecap="butt"
@@ -106,9 +141,13 @@
         />
       </div>
       <div class="sliderBlock">
-        <el-slider v-model="currentVolume" :show-tooltip="false" />
+        <el-slider
+          v-model="currentVolume"
+          :show-tooltip="false"
+          @input="changeVolume"
+        />
       </div>
-      <div class="playingSongList">
+      <div class="playingSongList" @click="isDrawer = true">
         <list-two
           fill="#000000"
           size="32"
@@ -116,6 +155,29 @@
           strokeLinejoin="bevel"
           theme="filled"
         />
+        <div class="drawer">
+          <el-drawer
+            v-model="isDrawer"
+            :with-header="false"
+            z-index="1000000000000000000000000000000000000"
+          >
+            <span v-if="store.musicList.length > 1"
+              >共{{ store.musicList.length }}首</span
+            >
+            <span v-if="store.musicList.length === 1">共0首</span>
+            <el-table
+              :data="store.musicList"
+              highlight-current-row
+              lazy
+              stripe
+              style="width: 100%"
+            >
+              <el-table-column label="歌名" prop="al.name" width="180" />
+              <el-table-column label="作者" prop="ar[0].name" width="180" />
+              <el-table-column label="时长" prop="dt" />
+            </el-table>
+          </el-drawer>
+        </div>
       </div>
     </div>
   </div>
@@ -130,7 +192,11 @@ import {
   Pause,
   PlayCycle,
   PlayOne,
+  ShuffleOne,
+  SortTwo,
+  VolumeMute,
   VolumeNotice,
+  VolumeSmall,
 } from "@icon-park/vue-next";
 import { ref, watch } from "vue";
 import request from "@/network/request";
@@ -140,10 +206,13 @@ import { storeToRefs } from "pinia";
 import { useMusicList } from "@/stores/MusicList/musiclist";
 
 import { usePlayState } from "@/stores/PlayState/Playstate";
+import order from "@icon-park/vue-next/lib/icons/Order";
 
 const { isPlay } = storeToRefs(usePlayState());
 const { currentMusicIndex } = storeToRefs(usePlayState());
 const { currentTime }: any = storeToRefs(usePlayState());
+
+const isDrawer = ref<boolean>(false);
 
 const { musicId }: any = storeToRefs(useMusicId());
 
@@ -153,9 +222,14 @@ const store: any = useMusicList();
 
 // 顺序播放 order
 // 随机播放 random
+// 单曲循环 loop
 const playType = ref<string>("order");
 
+const isMute = ref<boolean>(false);
+
 const currentVolume = ref<number>(30);
+
+const volumeSave = ref<number>(0);
 
 const currentProgress = ref<number>(0);
 
@@ -178,6 +252,64 @@ const getMusicUrl = async () => {
 };
 
 const musicList = ref<any[]>([]);
+
+const changePlayMode = () => {
+  switch (playType.value) {
+    case "loop":
+      playType.value = "order";
+      break;
+    case "order":
+      playType.value = "random";
+      break;
+    case "random":
+      playType.value = "loop";
+      break;
+  }
+};
+
+const changeMusic = (type: any, id: number) => {
+  if (type === "click") {
+    store.musicId = id;
+  } else if (type === "pre") {
+    let currentMusicIndexPre = currentMusicIndex.value;
+    let preIndex: number;
+    if (playType.value === "order") {
+      preIndex =
+        currentMusicIndexPre - 1 < 0
+          ? store.musicList.length - 1
+          : currentMusicIndexPre - 1;
+    } else if (playType.value === "random") {
+      if (store.musicList.length === 1) {
+        preIndex = currentMusicIndexPre;
+      } else {
+        preIndex = currentMusicIndexPre;
+        while (preIndex === currentMusicIndex.value) {
+          preIndex = Math.floor(Math.random() * currentMusicIndex.value);
+        }
+      }
+      musicId.value = store.musicList[preIndex].id;
+    }
+  } else if (type === "next") {
+    let currentMusicIndexNext = currentMusicIndex.value;
+    let nextIndex: number;
+    if (playType.value === "order") {
+      nextIndex =
+        currentMusicIndexNext === store.musicList.length
+          ? 0
+          : currentMusicIndexNext + 1;
+    } else if (playType.value === "random") {
+      if (store.musicList.length === 1) {
+        nextIndex = currentMusicIndexNext;
+      } else {
+        nextIndex = currentMusicIndexNext;
+        while (nextIndex === currentMusicIndexNext) {
+          nextIndex = Math.floor(Math.random() * store.musicList.length);
+        }
+      }
+      store.musicId = store.musicList[nextIndex].id;
+    }
+  }
+};
 
 // 改变音乐状态
 const changeState = (PlayState: boolean) => {
@@ -208,6 +340,7 @@ const getMusicDetailFromMusicList = () => {
 
 const timeUpdate = () => {
   let time = audio.value.currentTime;
+  let durationTime = audio.value.duration;
   let minutes = Math.floor(time / 60); // 获取分钟数
   let seconds = Math.floor(time % 60); // 获取秒数
   // 将分钟数和秒数转换为 mm:ss 格式
@@ -217,6 +350,35 @@ const timeUpdate = () => {
     ":" +
     (seconds < 10 ? "0" : "") +
     seconds;
+
+  currentProgress.value = Math.floor((time / durationTime) * 100);
+};
+
+const changeProgress = (e: number) => {
+  console.log(e);
+  currentTime.value = Math.floor((e / 100) * audio.value.duration);
+  audio.value.currentTime = currentTime.value;
+};
+
+const changeVolume = (e: number) => {
+  console.log(e);
+  currentVolume.value = e;
+  audio.value.volume = currentVolume.value / 100;
+  if (e > 0 && isMute.value) {
+    isMute.value = false;
+  } else if (e === 0 && !isMute.value) {
+    isMute.value = true;
+  }
+};
+
+const changeVolumeMute = () => {
+  if (isMute.value) {
+    currentVolume.value = volumeSave.value;
+    isMute.value = false;
+  } else {
+    volumeSave.value = currentVolume.value;
+    isMute.value = true;
+  }
 };
 
 watch(
@@ -292,7 +454,7 @@ watch(musicId, () => {
       align-items: center;
       cursor: pointer;
 
-      .playCycle {
+      .playMode {
         margin: 0 2vmin 2vmin 1vmin;
         cursor: pointer;
       }
@@ -372,5 +534,10 @@ watch(musicId, () => {
 
 .totalTime {
   margin-left: 2vmin;
+}
+
+:deep(.el-drawer) {
+  background: white;
+  z-index: 9999999;
 }
 </style>
