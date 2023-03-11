@@ -172,7 +172,7 @@
               style="width: 100%"
               @row-dblclick="clickRow"
             >
-              <el-table-column label="歌名" prop="al.name" width="180" />
+              <el-table-column label="歌名" prop="name" width="180" />
               <el-table-column label="作者" prop="ar[0].name" width="180" />
               <el-table-column label="时长" prop="dt" />
             </el-table>

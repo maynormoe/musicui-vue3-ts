@@ -1,13 +1,13 @@
 <template>
   <div class="singerDetailContainer">
     <div class="singerDetail">
-      <div class="singerInfo">
+      <div v-if="singerDetailData" class="singerInfo">
         <div class="singerCover">
-          <img alt="" src="/src/assets/img/defaultcover.png" />
+          <img :src="singerDetailData.cover" alt="" />
         </div>
         <div class="singerInfoRight">
           <div class="singerName">
-            <span>Maynormoe</span>
+            <span>{{ singerDetailData.name }}</span>
           </div>
           <div class="buttons">
             <div class="buttonsItem">
@@ -18,29 +18,60 @@
             </div>
           </div>
           <div class="singerInfoCount">
-            <span>单曲数：20</span>
-            <span>专辑数：20</span>
-            <span>MV数量：200</span>
+            <span>单曲数：{{ singerDetailData.musicSize }}</span>
+            <span>专辑数：{{ singerDetailData.albumSize }}</span>
+            <span>MV数量：{{ singerDetailData.mvSize }}</span>
           </div>
         </div>
+      </div>
+      <div class="singerDetailBarContainer">
+        <SingerDetailBar></SingerDetailBar>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { Like, Link } from "@icon-park/vue-next";
-import { defineComponent } from "vue";
+import SingerDetailBar from "@/components/SingerDetailBar/SingerDetailBar.vue";
+import { onMounted, provide, ref } from "vue";
+import request from "@/network/request";
+import { useRoute } from "vue-router";
 
-export default defineComponent({
-  computed: {
-    Link() {
-      return Link;
+const route = useRoute();
+
+const currentPage = ref<number>(1);
+
+const singerDetailData = ref<any[] | undefined | null>(null);
+
+const singerAlbumData = ref<any[] | undefined | null>(null);
+
+const getSingerAlbum = async () => {
+  let res: any = await request.get("/artist/album", {
+    params: {
+      id: route.params.id,
+      limit: 30,
     },
-    Like() {
-      return Like;
+  });
+  console.log(res.hotAlbums);
+  singerAlbumData.value = res.hotAlbums;
+};
+
+provide("PrecommendData", singerAlbumData);
+
+const getSingerDetail = async () => {
+  let res: any = await request.get("/artist/detail", {
+    params: {
+      id: route.params.id,
     },
-  },
+  });
+  console.log(res.data.artist);
+  singerDetailData.value = res.data.artist;
+};
+
+onMounted(() => {
+  getSingerDetail();
+  getSingerAlbum();
 });
 </script>
 
@@ -135,7 +166,9 @@ export default defineComponent({
           color: #6b6b6b;
 
           span {
+            font-size: 2vmin;
             margin-top: 6.55vmin;
+            margin-left: 2vmin;
           }
         }
       }

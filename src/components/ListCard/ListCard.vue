@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="PrecommendData"
     v-infinite-scroll="load"
     :infinite-scroll-disabled="disable"
     :infinite-scroll-distance="100"
@@ -27,7 +28,7 @@
 <script lang="ts" setup>
 import { inject, ref, watch } from "vue";
 
-const PrecommendData: any | undefined = inject<string>("PrecommendData");
+const PrecommendData: any | undefined = inject<any[]>("PrecommendData");
 
 const emits = defineEmits(["bottomLoad", "clickSongListItem"]);
 

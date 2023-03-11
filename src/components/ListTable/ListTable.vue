@@ -2,7 +2,7 @@
   <div v-for="(item, index) in officialListData" :key="index" class="listTable">
     <div class="left">
       <div class="rankCover">
-        <img :src="item.coverImgUrl" />
+        <img :src="item.coverImgUrl" alt="" />
       </div>
     </div>
     <div class="right">
