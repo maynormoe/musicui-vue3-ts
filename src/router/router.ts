@@ -60,6 +60,11 @@ const router = createRouter({
           name: "singerDetail",
           component: () => import("@/views/SingerDetail/SingerDetail.vue"),
         },
+        {
+          path: "albumdetail/:id",
+          name: "albumdetail",
+          component: () => import("@/views/AlbumDetail/AlbumDetail.vue"),
+        },
       ],
     },
   ],

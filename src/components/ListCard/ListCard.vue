@@ -65,11 +65,15 @@ watch(PrecommendData, () => {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
 
   .songListItem {
-    width: 30.855vmin;
-    height: 30.855vmin;
-    padding: 4vmin;
+    width: 25%;
+    height: 25%;
+    box-sizing: border-box;
+    padding: 5vmin 4vmin 0 3vmin;
     cursor: pointer;
 
     .songCover {

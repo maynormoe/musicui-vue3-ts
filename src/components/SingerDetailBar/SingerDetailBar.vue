@@ -3,18 +3,32 @@
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="专辑" name="first">
         <div class="album">
-          <div class="albumTitle">
+          <div class="title">
+            <span>热歌Top50</span>
+          </div>
+          <div class="singerSingTopRank">
+            <div>
+              <ListTable official-list-data="" rank-detail-data=""></ListTable>
+            </div>
+          </div>
+          <div class="title">
             <span>热门专辑</span>
           </div>
           <div class="albumList">
             <div class="hotAlbum">
-              <ListCard></ListCard>
+              <ListCard @clickSongListItem="goAlbumDetail"></ListCard>
             </div>
           </div>
         </div>
       </el-tab-pane>
       <el-tab-pane label="MV" name="second"></el-tab-pane>
-      <el-tab-pane label="歌手详情" name="third"></el-tab-pane>
+      <el-tab-pane label="歌手详情" name="third">
+        <div class="singerIntroContainer">
+          <SingerIntroduction
+            :singerIntroduction="singerDetailData"
+          ></SingerIntroduction>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -23,10 +37,24 @@
 import { ref } from "vue";
 import type { TabsPaneContext } from "element-plus";
 import ListCard from "@/components/ListCard/ListCard.vue";
+import SingerIntroduction from "@/components/SingerIntroduction/SingerIntroduction.vue";
+import router from "@/router/router";
+import ListTable from "@/components/ListTable/ListTable.vue";
 
 const activeName = ref("first");
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event);
+};
+
+const props = defineProps({
+  singerDetailData: {
+    type: Array,
+    required: true,
+  },
+});
+
+const goAlbumDetail = (id: number) => {
+  router.push({ name: "albumdetail", params: { id } });
 };
 </script>
 
@@ -62,19 +90,25 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   }
 }
 
-.albumTitle {
-  font-size: 2.65vmin;
-  margin: 1vmin;
+.album {
+  .title {
+    font-size: 2.65vmin;
+    margin: 1vmin;
 
-  span {
-    color: #8c8c8c;
-    border-left: 5px solid #e13e3e;
-    border-radius: 0.3vmin;
+    span {
+      color: #8c8c8c;
+      border-left: 5px solid #e13e3e;
+      border-radius: 0.3vmin;
 
-    &:hover {
-      color: #ec4141;
-      cursor: pointer;
+      &:hover {
+        color: #ec4141;
+        cursor: pointer;
+      }
     }
+  }
+
+  .albumList {
+    width: 100%;
   }
 }
 </style>
