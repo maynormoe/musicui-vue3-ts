@@ -91,6 +91,20 @@ const getSingerTop = async () => {
   });
   console.log(res);
   singerTopData.value = res.songs;
+  // 转换时长
+  res.songs.forEach((item: Array<any>, index: number) => {
+    const durationInMilliseconds = res.songs[index].dt;
+    const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
+
+    const hours = Math.floor(durationInSeconds / 3600);
+    const minutes = Math.floor((durationInSeconds % 3600) / 60);
+    const seconds = Math.floor(durationInSeconds % 60);
+    res.songs[index].dt = [
+      ("0" + hours).slice(-2),
+      ("0" + minutes).slice(-2),
+      ("0" + seconds).slice(-2),
+    ].join(":");
+  });
 };
 
 const bottomLoad = () => {

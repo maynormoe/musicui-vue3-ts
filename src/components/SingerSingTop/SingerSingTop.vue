@@ -6,10 +6,16 @@
     <div v-if="singerTopData" class="rightList">
       <el-table
         :data="isOpen ? singerTopData : singerTopData.slice(0, 10)"
+        :row-key="
+          (row) => {
+            return row.id;
+          }
+        "
         highlight-current-row
         lazy
         stripe
         style="width: 100%"
+        @row-dblclick="clickRow"
       >
         <el-table-column type="index" width="50" />
         <el-table-column prop="name" width="700" />
@@ -33,10 +39,16 @@
 <script lang="ts" setup>
 import { Right } from "@icon-park/vue-next";
 import { ref } from "vue";
+import { useMusicId } from "@/stores/MusicId/musicid";
+import { storeToRefs } from "pinia";
+import { useMusicList } from "@/stores/MusicList/musiclist";
+
+const { musicId } = storeToRefs(useMusicId());
+const { musicList } = storeToRefs(useMusicList());
 
 const props = defineProps({
   singerTopData: {
-    type: Array,
+    type: Array as any,
     required: true,
   },
 });
@@ -48,6 +60,12 @@ const clickShowMore = () => {
   isOpen.value = !isOpen.value;
 };
 const isOpen = ref<boolean>(false);
+
+const clickRow = (row: any) => {
+  console.log(row.id);
+  musicId.value = row.id;
+  musicList.value = props.singerTopData;
+};
 </script>
 
 <style lang="less" scoped>
