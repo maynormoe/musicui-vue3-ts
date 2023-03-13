@@ -25,7 +25,10 @@
         </div>
       </div>
       <div class="singerDetailBarContainer">
-        <SingerDetailBar :singerDetailData="singerDetailData"></SingerDetailBar>
+        <SingerDetailBar
+          :singerDetailData="singerDetailData"
+          :singerTopData="singerTopData"
+        ></SingerDetailBar>
       </div>
     </div>
   </div>
@@ -69,7 +72,7 @@ const getSingerDetail = async () => {
   singerDetailData.value = res.data.artist;
 };
 
-const singerTop = ref<any[] | undefined | null>(null);
+const singerTopData = ref<any[] | undefined | null>(null);
 
 const getSingerTop = async () => {
   let res: any = await request.get("/artist/top/song", {
@@ -77,8 +80,8 @@ const getSingerTop = async () => {
       id: route.params.id,
     },
   });
-  console.log(res);
-  singerTop.value = res;
+  console.log(res.songs);
+  singerTopData.value = res.songs;
 };
 
 onMounted(() => {

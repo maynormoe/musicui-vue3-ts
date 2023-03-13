@@ -45,6 +45,7 @@ declare module '@vue/runtime-core' {
     SecondNavBar: typeof import('./src/components/SecondNavBar/SecondNavBar.vue')['default']
     SingerDetailBar: typeof import('./src/components/SingerDetailBar/SingerDetailBar.vue')['default']
     SingerIntroduction: typeof import('./src/components/SingerIntroduction/SingerIntroduction.vue')['default']
+    SingerSingTop: typeof import('./src/components/SingerSingTop/SingerSingTop.vue')['default']
     SoftBox: typeof import("./src/components/SoftBox/SoftBox.vue")["default"]
     SortBox: typeof import('./src/components/SortBox/SortBox.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/SvgIcon.vue')['default']

@@ -7,9 +7,7 @@
             <span>热歌Top50</span>
           </div>
           <div class="singerSingTopRank">
-            <div>
-              <ListTable official-list-data="" rank-detail-data=""></ListTable>
-            </div>
+            <SingerSingTop :singerTopData="singerTopData"></SingerSingTop>
           </div>
           <div class="title">
             <span>热门专辑</span>
@@ -39,7 +37,7 @@ import type { TabsPaneContext } from "element-plus";
 import ListCard from "@/components/ListCard/ListCard.vue";
 import SingerIntroduction from "@/components/SingerIntroduction/SingerIntroduction.vue";
 import router from "@/router/router";
-import ListTable from "@/components/ListTable/ListTable.vue";
+import SingerSingTop from "@/components/SingerSingTop/SingerSingTop.vue";
 
 const activeName = ref("first");
 const handleClick = (tab: TabsPaneContext, event: Event) => {
@@ -48,6 +46,10 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 
 const props = defineProps({
   singerDetailData: {
+    type: Array,
+    required: true,
+  },
+  singerTopData: {
     type: Array,
     required: true,
   },
