@@ -1,11 +1,11 @@
 <template>
   <div class="SingerSingTop">
     <div class="leftCover">
-      <img alt="" src="/src/assets/img/defaultcover.png" />
+      <img alt="" src="/src/assets/img/topSongsLogo.png" />
     </div>
     <div v-if="singerTopData" class="rightList">
       <el-table
-        :data="singerTopData.slice(0, 10)"
+        :data="isOpen ? singerTopData : singerTopData.slice(0, 10)"
         highlight-current-row
         lazy
         stripe
@@ -15,8 +15,9 @@
         <el-table-column prop="name" width="700" />
         <el-table-column prop="ar[0].name" />
       </el-table>
-      <div class="showMore">
-        <span>查看全部</span>
+      <div class="showAll" @click="clickShowMore">
+        <span v-if="isShowAll">展开</span>
+        <span v-else>收起</span>
         <right
           fill="#949494"
           size="32"
@@ -31,6 +32,7 @@
 
 <script lang="ts" setup>
 import { Right } from "@icon-park/vue-next";
+import { ref } from "vue";
 
 const props = defineProps({
   singerTopData: {
@@ -38,6 +40,14 @@ const props = defineProps({
     required: true,
   },
 });
+
+const isShowAll = ref<boolean>(true);
+
+const clickShowMore = () => {
+  isShowAll.value = !isShowAll.value;
+  isOpen.value = !isOpen.value;
+};
+const isOpen = ref<boolean>(false);
 </script>
 
 <style lang="less" scoped>
@@ -58,8 +68,8 @@ const props = defineProps({
   }
 
   .rightList {
-    width: 100vmin;
-    height: 80vmin;
+    width: 70%;
+    height: 25%;
 
     :deep(.el-table) {
       border: 1px solid #ffffff;
@@ -74,7 +84,7 @@ const props = defineProps({
       }
     }
 
-    .showMore {
+    .showAll {
       display: flex;
       align-items: center;
       cursor: pointer;

@@ -26,8 +26,10 @@
       </div>
       <div class="singerDetailBarContainer">
         <SingerDetailBar
+          :singerAlbumData="singerAlbumData"
           :singerDetailData="singerDetailData"
           :singerTopData="singerTopData"
+          @bottomLoad="bottomLoad"
         ></SingerDetailBar>
       </div>
     </div>
@@ -47,17 +49,24 @@ const currentPage = ref<number>(1);
 
 const singerDetailData = ref<any[] | undefined | null>(null);
 
-const singerAlbumData = ref<any[] | undefined | null>(null);
+const singerAlbumData = ref<any[]>([]);
+
+const isMore = ref<boolean>(false);
 
 const getSingerAlbum = async () => {
   let res: any = await request.get("/artist/album", {
     params: {
       id: route.params.id,
-      limit: 30,
+      limit: 24,
+      offset: (currentPage.value - 1) * 24,
     },
   });
-  console.log(res.hotAlbums);
-  singerAlbumData.value = res.hotAlbums;
+  console.log(res);
+  // singerAlbumData.value = res.hotAlbums;
+  res.hotAlbums.forEach((item: Array<any>, index: number) => {
+    singerAlbumData.value.push(item);
+  });
+  isMore.value = res.more;
 };
 
 provide("PrecommendData", singerAlbumData);
@@ -80,8 +89,17 @@ const getSingerTop = async () => {
       id: route.params.id,
     },
   });
-  console.log(res.songs);
+  console.log(res);
   singerTopData.value = res.songs;
+};
+
+const bottomLoad = () => {
+  if (isMore.value) {
+    if (singerAlbumData.value.length !== 0) {
+      currentPage.value += 1;
+      getSingerAlbum();
+    }
+  }
 };
 
 onMounted(() => {

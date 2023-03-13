@@ -14,7 +14,10 @@
           </div>
           <div class="albumList">
             <div class="hotAlbum">
-              <ListCard @clickSongListItem="goAlbumDetail"></ListCard>
+              <ListCard
+                @clickSongListItem="goAlbumDetail"
+                @bottom-load="bottomLoad"
+              ></ListCard>
             </div>
           </div>
         </div>
@@ -53,10 +56,19 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  singerAlbumData: {
+    type: Array,
+  },
 });
 
 const goAlbumDetail = (id: number) => {
   router.push({ name: "albumdetail", params: { id } });
+};
+
+const emits = defineEmits(["bottomLoad"]);
+
+const bottomLoad = () => {
+  emits("bottomLoad");
 };
 </script>
 
