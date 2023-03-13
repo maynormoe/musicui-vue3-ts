@@ -28,6 +28,7 @@
         <SingerDetailBar
           :singerAlbumData="singerAlbumData"
           :singerDetailData="singerDetailData"
+          :singerMvData="singerMvData"
           :singerTopData="singerTopData"
           @bottomLoad="bottomLoad"
         ></SingerDetailBar>
@@ -107,6 +108,31 @@ const getSingerTop = async () => {
   });
 };
 
+const singerMvData = ref<any[]>([]);
+
+const getSingerMv = async () => {
+  let res: any = await request.get("/artist/mv", {
+    params: {
+      id: route.params.id,
+    },
+  });
+  console.log(res.mvs);
+  singerMvData.value = res.mvs;
+  res.mvs.forEach((item: Array<any>, index: number) => {
+    const durationInMilliseconds = res.mvs[index].duration;
+    const durationInSeconds = Math.floor(durationInMilliseconds / 1000);
+
+    const hours = Math.floor(durationInSeconds / 3600);
+    const minutes = Math.floor((durationInSeconds % 3600) / 60);
+    const seconds = Math.floor(durationInSeconds % 60);
+    res.mvs[index].duration = [
+      ("0" + hours).slice(-2),
+      ("0" + minutes).slice(-2),
+      ("0" + seconds).slice(-2),
+    ].join(":");
+  });
+};
+
 const bottomLoad = () => {
   if (isMore.value) {
     if (singerAlbumData.value.length !== 0) {
@@ -120,6 +146,7 @@ onMounted(() => {
   getSingerDetail();
   getSingerAlbum();
   getSingerTop();
+  getSingerMv();
 });
 </script>
 

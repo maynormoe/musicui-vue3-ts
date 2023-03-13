@@ -22,7 +22,13 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="MV" name="second"></el-tab-pane>
+      <el-tab-pane label="MV" name="second">
+        <div class="singerMvContainer">
+          <div class="videoList">
+            <VideoCard :video-card-data="singerMvData"></VideoCard>
+          </div>
+        </div>
+      </el-tab-pane>
       <el-tab-pane label="歌手详情" name="third">
         <div class="singerIntroContainer">
           <SingerIntroduction
@@ -41,6 +47,7 @@ import ListCard from "@/components/ListCard/ListCard.vue";
 import SingerIntroduction from "@/components/SingerIntroduction/SingerIntroduction.vue";
 import router from "@/router/router";
 import SingerSingTop from "@/components/SingerSingTop/SingerSingTop.vue";
+import VideoCard from "@/components/VideoCard/VideoCard.vue";
 
 const activeName = ref("first");
 const handleClick = (tab: TabsPaneContext, event: Event) => {
@@ -57,6 +64,9 @@ const props = defineProps({
     required: true,
   },
   singerAlbumData: {
+    type: Array,
+  },
+  singerMvData: {
     type: Array,
   },
 });
@@ -123,6 +133,16 @@ const bottomLoad = () => {
 
   .albumList {
     width: 100%;
+  }
+}
+
+.singerMvContainer {
+  .videoList {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   }
 }
 </style>

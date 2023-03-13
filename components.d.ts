@@ -50,6 +50,7 @@ declare module '@vue/runtime-core' {
     SortBox: typeof import('./src/components/SortBox/SortBox.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/SvgIcon.vue')['default']
     User: typeof import('./src/components/User/User.vue')['default']
+    VideoCard: typeof import('./src/components/VideoCard/VideoCard.vue')['default']
   }
   export interface ComponentCustomProperties {
     vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
